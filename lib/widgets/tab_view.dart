@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:microbiocol/free_tire_pages/analyze_page.dart';
 import 'package:microbiocol/utils/colors.dart';
 
 class TabView extends StatefulWidget {
@@ -7,6 +6,7 @@ class TabView extends StatefulWidget {
   final IconData leftSideIcon;
   final String RighttSideTitle;
   final String RightSideimage;
+  final Function(int _isTap) onTap;
 
   const TabView({
     super.key,
@@ -14,6 +14,7 @@ class TabView extends StatefulWidget {
     required this.leftSideIcon,
     required this.RighttSideTitle,
     required this.RightSideimage,
+    required this.onTap,
   });
 
   @override
@@ -32,10 +33,9 @@ class _TabViewState extends State<TabView> {
             onTap: () {
               setState(() {
                 _isTap = 0;
+
+                widget.onTap(_isTap);
               });
-              Analyze(
-                index: 0,
-              );
             },
             child: Container(
               height: 50,
@@ -59,11 +59,11 @@ class _TabViewState extends State<TabView> {
                   ),
                   SizedBox(
                     width: 6,
-                  ),       
+                  ),
                   Text(
                     widget.leftSideTitle,
                     style: TextStyle(
-                      fontSize:22,
+                      fontSize: 22,
                       fontWeight: FontWeight.w500,
                       color: _isTap == 0
                           ? mprimaryColor
@@ -81,11 +81,8 @@ class _TabViewState extends State<TabView> {
             onTap: () {
               setState(() {
                 _isTap = 1;
+                widget.onTap(_isTap);
               });
-
-              Analyze(
-                index: _isTap,
-              );
             },
             child: Container(
               height: 50,
@@ -130,8 +127,6 @@ class _TabViewState extends State<TabView> {
             ),
           ),
         ),
-
-        // Text("",style: TextStyle(fontSize: ,fontWeight: ,color: ),)
       ],
     );
   }

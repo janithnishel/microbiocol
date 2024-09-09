@@ -27,7 +27,8 @@ class HomePage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text(
                 "Hi, Jhon",
                 style: TextStyle(
@@ -67,7 +68,7 @@ class HomePage extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     RecentCardModel data = recentData[index];
-          
+
                     return _recentCard(data);
                   },
                 ),
@@ -92,7 +93,9 @@ class HomePage extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Padding(
-                        padding: i==0? EdgeInsets.only(right: 8):EdgeInsets.only(left:8 ),
+                        padding: i == 0
+                            ? EdgeInsets.only(right: 8)
+                            : EdgeInsets.only(left: 8),
                         child: CustomButton(
                           isHasWidget: true,
                           isHasBorder: false,
@@ -105,17 +108,16 @@ class HomePage extends StatelessWidget {
                                       "assets/images/count.svg",
                                       fit: BoxFit.cover,
                                       width: 13,
-                                      height: 13
-                                      ,
+                                      height: 13,
                                     )
                                   : const Padding(
-                                    padding: EdgeInsets.only(top: 2),
-                                    child: Icon(
+                                      padding: EdgeInsets.only(top: 2),
+                                      child: Icon(
                                         Icons.camera_alt_outlined,
                                         color: Color(0xffFDFFFC),
                                         size: 15,
                                       ),
-                                  ),
+                                    ),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -151,7 +153,7 @@ class HomePage extends StatelessWidget {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                              height: 160,
+                height: 160,
                 child: Stack(
                   children: [
                     ListView.builder(
@@ -161,12 +163,13 @@ class HomePage extends StatelessWidget {
                       scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) {
                         SavedItemModel data = savedData[index];
-                                
+
                         return _savedItemList(data, context);
                       },
                     ),
                     if (isFreeTire == true)
                       CustommBox(
+                          isHasBoxShadow: false,
                           isHasBorder: false,
                           width: MediaQuery.of(context).size.width,
                           height: 160,
@@ -179,6 +182,7 @@ class HomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustommBox(
+                                isHasBoxShadow: false,
                                 isHasBorder: true,
                                 width: 40,
                                 height: 40,
@@ -194,6 +198,7 @@ class HomePage extends StatelessWidget {
                                 height: 15,
                               ),
                               CustommBox(
+                                  isHasBoxShadow: false,
                                   isHasBorder: false,
                                   width: 133,
                                   height: 36,
@@ -227,6 +232,7 @@ class HomePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: CustommBox(
+        isHasBoxShadow: false,
         isHasBorder: false,
         width: 115,
         height: 150,
@@ -289,11 +295,12 @@ class HomePage extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustommBox(
+                isHasBoxShadow: false,
                 isHasBorder: false,
                 width: 64,
                 height: 64,

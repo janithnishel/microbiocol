@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:microbiocol/free_tire_pages/details_page.dart';
+import 'package:microbiocol/free_tire_pages/submit_ticket.dart';
+import 'package:microbiocol/free_tire_pages/subscriptions.dart';
+import 'package:microbiocol/free_tire_pages/unlock_Premium.dart';
 import 'package:microbiocol/login_register_pages/splash_screen.dart';
-import 'package:microbiocol/micro_bio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: "Lato"),
-      home: SplashScreen(),
+      theme: ThemeData(
+        textTheme: Theme.of(context).textTheme.apply(
+              fontFamily: "Lato",
+            ),
+      ),
+      home: DetailsPage()
     );
   }
 }

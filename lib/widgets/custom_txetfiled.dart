@@ -5,30 +5,36 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final bool? isObscureText;
   final TextInputType? keyBoardType;
-  final Widget? suffixIcon;  
-  final bool? isHasSuffixIcon;         
-  const CustomTextField(
-      {super.key,
-      required this.hintText,
-      this.isObscureText,
-      this.keyBoardType, this.suffixIcon, this.isHasSuffixIcon});
+  final Widget? suffixIcon;
+  final bool? isHasSuffixIcon;
+  final double? suffixConstrainHeight;
+  final int? maxLines;
+  const CustomTextField({
+    super.key,
+    required this.hintText,
+    this.isObscureText,
+    this.keyBoardType,
+    this.suffixIcon,
+    this.isHasSuffixIcon,
+    this.suffixConstrainHeight, this.maxLines=1,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: keyBoardType ?? TextInputType.visiblePassword,
       obscureText: isObscureText ?? false,
-    
+      maxLines: maxLines ,
       style: const TextStyle(
         color: mprimaryColor,
         fontSize: 16,
         fontWeight: FontWeight.w300,
       ),
       decoration: InputDecoration(
-     
-        suffixIcon:isHasSuffixIcon??false?suffixIcon: null,
-        suffixIconConstraints: BoxConstraints.tightFor(height: 10,width:35),
-        fillColor: mtextFieldColor,
+        suffixIcon: isHasSuffixIcon ?? false ? suffixIcon : null,
+        suffixIconConstraints: BoxConstraints.tightFor(
+            height: suffixConstrainHeight ?? 10, width: 35),
+        fillColor: mTextFieldColor,
         filled: true,
         isDense: true,
         hintMaxLines: 1,

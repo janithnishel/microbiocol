@@ -3,7 +3,7 @@ import 'package:microbiocol/models/recent_card_model.dart';
 class RecentCardData {
   List<RecentCardModel> recentDataList = [
     RecentCardModel(
-      imageUrl: "assets/images/amoeba.png",
+      imageUrl: "assets/images/amoeba.svg",
       microAnimalName: "Amoeba",
     ),
     RecentCardModel(

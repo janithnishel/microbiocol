@@ -20,6 +20,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         backgroundColor: mwhiteColor,
         body: Responsive.smailHeight(context) == false
             ? SafeArea(
