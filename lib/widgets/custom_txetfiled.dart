@@ -16,7 +16,8 @@ class CustomTextField extends StatelessWidget {
     this.keyBoardType,
     this.suffixIcon,
     this.isHasSuffixIcon,
-    this.suffixConstrainHeight, this.maxLines=1,
+    this.suffixConstrainHeight,
+    this.maxLines = 1,
   });
 
   @override
@@ -24,7 +25,7 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       keyboardType: keyBoardType ?? TextInputType.visiblePassword,
       obscureText: isObscureText ?? false,
-      maxLines: maxLines ,
+      maxLines: maxLines,
       style: const TextStyle(
         color: mprimaryColor,
         fontSize: 16,
@@ -33,7 +34,9 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         suffixIcon: isHasSuffixIcon ?? false ? suffixIcon : null,
         suffixIconConstraints: BoxConstraints.tightFor(
-            height: suffixConstrainHeight ?? 10, width: 35),
+          height: suffixConstrainHeight ?? 10,
+          width: 35,
+        ),
         fillColor: mTextFieldColor,
         filled: true,
         isDense: true,

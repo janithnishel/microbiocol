@@ -4,16 +4,16 @@ import 'package:microbiocol/utils/colors.dart';
 class TabView extends StatefulWidget {
   final String leftSideTitle;
   final IconData leftSideIcon;
-  final String RighttSideTitle;
-  final String RightSideimage;
-  final Function(int _isTap) onTap;
+  final String righttSideTitle;
+  final String rightSideimage;
+  final Function(int isTap) onTap;
 
   const TabView({
     super.key,
     required this.leftSideTitle,
     required this.leftSideIcon,
-    required this.RighttSideTitle,
-    required this.RightSideimage,
+    required this.righttSideTitle,
+    required this.rightSideimage,
     required this.onTap,
   });
 
@@ -57,7 +57,7 @@ class _TabViewState extends State<TabView> {
                         ? mprimaryColor
                         : mprimaryColor.withOpacity(0.5),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 6,
                   ),
                   Text(
@@ -101,7 +101,7 @@ class _TabViewState extends State<TabView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    widget.RightSideimage,
+                    widget.rightSideimage,
                     fit: BoxFit.cover,
                     width: 18,
                     height: 18,
@@ -113,7 +113,7 @@ class _TabViewState extends State<TabView> {
                     width: 10,
                   ),
                   Text(
-                    widget.RighttSideTitle,
+                    widget.righttSideTitle,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,

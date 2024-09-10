@@ -7,7 +7,7 @@ import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class Account extends StatefulWidget {
-  Account({super.key});
+  const Account({super.key});
 
   @override
   State<Account> createState() => _AccountState();
@@ -23,7 +23,7 @@ class _AccountState extends State<Account> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Column(
             children: [
-              TitleBar(context),
+              titleBar(context),
               const SizedBox(height: 20),
               Row(
                 children: [
@@ -51,7 +51,7 @@ class _AccountState extends State<Account> {
                     children: [
                       Text(
                         "Jhon Doe",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
                           color: mprimaryColor,
@@ -134,7 +134,7 @@ class _AccountState extends State<Account> {
             width: 40,
             height: 40,
             borderRadius: 8,
-            color: Color(0xff1C1D33).withOpacity(0.4),
+            color: const Color(0xff1C1D33).withOpacity(0.4),
             widget: Center(
               child: Icon(
                 data.icon,

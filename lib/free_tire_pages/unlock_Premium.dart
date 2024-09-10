@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:microbiocol/data/subscription_data.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -30,66 +29,62 @@ class _UnlockPremiumState extends State<UnlockPremium> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Unlock Counts with Premium",
-                          style: TextStyle(
-                            fontSize: responsive == true ? 20 : 24,
-                            fontWeight: FontWeight.w700,
-                            color: mprimaryColor,
-                          ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Unlock Counts with Premium",
+                        style: TextStyle(
+                          fontSize: responsive == true ? 20 : 24,
+                          fontWeight: FontWeight.w700,
+                          color: mprimaryColor,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Icon(
-                            Icons.close,
-                            size: responsive == true ? 20 : 24,
-                            color: mprimaryColor,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Icon(
+                          Icons.close,
+                          size: responsive == true ? 20 : 24,
+                          color: mprimaryColor,
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _billCard(
-                          billingMethod: "Monthly",
-                          billingPrice: 9.99,
-                          billingStatus: "Billed Monthly",
-                          responsive: responsive,
-                          isHasSave: false,
-                          isClick: 0,
-                        ),
-                        _billCard(
-                          billingMethod: "Annual",
-                          billingPrice: 79.99,
-                          billingStatus: "Billed Annually",
-                          responsive: responsive,
-                          isHasSave: true,
-                          isClick: 1,
-                        )
-                      ],
-                    ),
-                    for (int i = 0;
-                        i < SubscriptionData.SubscriptionDataList.length;
-                        i++)
-                      _subscriptionDetails(i)
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _billCard(
+                        billingMethod: "Monthly",
+                        billingPrice: 9.99,
+                        billingStatus: "Billed Monthly",
+                        responsive: responsive,
+                        isHasSave: false,
+                        isClick: 0,
+                      ),
+                      _billCard(
+                        billingMethod: "Annual",
+                        billingPrice: 79.99,
+                        billingStatus: "Billed Annually",
+                        responsive: responsive,
+                        isHasSave: true,
+                        isClick: 1,
+                      )
+                    ],
+                  ),
+                  for (int i = 0;
+                      i < SubscriptionData.SubscriptionDataList.length;
+                      i++)
+                    _subscriptionDetails(i)
+                ],
               ),
-              CustomButton(
+              const CustomButton(
                 isHasWidget: false,
                 isHasBorder: false,
                 title: "Subscribe Now",
               ),
-
-           
             ],
           ),
         ),
@@ -125,74 +120,73 @@ class _UnlockPremiumState extends State<UnlockPremium> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          billingMethod,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                            color: _isTapped == isClick
-                                ? mwhiteColor
-                                : mprimaryColor,
-                          ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        billingMethod,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w400,
+                          color: _isTapped == isClick
+                              ? mwhiteColor
+                              : mprimaryColor,
                         ),
-                        CustommBox(
-                          isHasBoxShadow: false,
-                            width: 20,
-                            height: 20,
-                            borderRadius: 100,
-                            color: mwhiteColor,
-                            widget: Center(
-                                child: _isTapped == isClick
-                                    ? Icon(
-                                        Icons.check,
-                                        size: 12,
-                                        color: mprimaryColor,
-                                      )
-                                    : null),
-                            isHasBorder: _isTapped == isClick ? false : true)
-                      ],
-                    ),
-                    Text(
-                      "\$${billingPrice.toString()}",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w900,
-                        color:
-                            _isTapped == isClick ? mwhiteColor : mprimaryColor,
                       ),
+                      CustommBox(
+                        isHasBoxShadow: false,
+                        width: 20,
+                        height: 20,
+                        borderRadius: 100,
+                        color: mwhiteColor,
+                        widget: Center(
+                            child: _isTapped == isClick
+                                ? const Icon(
+                                    Icons.check,
+                                    size: 12,
+                                    color: mprimaryColor,
+                                  )
+                                : null),
+                        isHasBorder: _isTapped == isClick ? false : true,
+                      )
+                    ],
+                  ),
+                  Text(
+                    "\$${billingPrice.toString()}",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: _isTapped == isClick ? mwhiteColor : mprimaryColor,
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    isHasSave == true
-                        ? CustommBox(
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  isHasSave == true
+                      ? const CustommBox(
                           isHasBoxShadow: false,
-                            width: 76,
-                            height: 20,
-                            borderRadius: 8,
-                            color: maccentGreenColor,
-                            widget: Center(
-                              child: Text(
-                                "SAVE 33%",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: mwhiteColor),
+                          width: 76,
+                          height: 20,
+                          borderRadius: 8,
+                          color: maccentGreenColor,
+                          widget: Center(
+                            child: Text(
+                              "SAVE 33%",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: mwhiteColor,
                               ),
                             ),
-                            isHasBorder: false,
-                          )
-                        : Text("")
-                  ],
-                ),
+                          ),
+                          isHasBorder: false,
+                        )
+                      : const Text("")
+                ],
               ),
               Text(
                 billingStatus,
@@ -217,17 +211,17 @@ class _UnlockPremiumState extends State<UnlockPremium> {
       child: _isTapped == 0
           ? Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.check_sharp,
                   color: mprimaryColor,
                   size: 20,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Text(
                   SubscriptionData.SubscriptionDataList[index].title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: mprimaryColor,
@@ -235,7 +229,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                 )
               ],
             )
-          : Center(
+          : const Center(
               child: Text(
                 "",
                 style: TextStyle(

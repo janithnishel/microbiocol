@@ -9,6 +9,8 @@ class CustommBox extends StatelessWidget {
   final double borderRadius;
   final bool isHasBorder;
   final bool isHasBoxShadow;
+  final Color? borderColor;
+  final double? borderWidth;
   const CustommBox({
     super.key,
     required this.width,
@@ -18,6 +20,8 @@ class CustommBox extends StatelessWidget {
     required this.widget,
     required this.isHasBorder,
     required this.isHasBoxShadow,
+    this.borderColor,
+    this.borderWidth,
   });
 
   @override
@@ -29,17 +33,24 @@ class CustommBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         color: color,
         boxShadow: [
-           isHasBoxShadow?    BoxShadow(
-            blurRadius: 16,
-            offset: Offset(0, 5),
-            color: mBlack.withOpacity(0.15),
-          ):  BoxShadow(
-            blurRadius: 0,
-            offset: Offset(0, 0),
-            color: Colors.transparent)
+          isHasBoxShadow
+              ? BoxShadow(
+                  blurRadius: 16,
+                  offset: const Offset(0, 5),
+                  color: mBlack.withOpacity(0.15),
+                )
+              : const BoxShadow(
+                  blurRadius: 0,
+                  offset: Offset(0, 0),
+                  color: Colors.transparent,
+                )
         ],
-
-        border: isHasBorder ? Border.all(width: 1, color: mprimaryColor) : null,
+        border: isHasBorder
+            ? Border.all(
+                width: borderWidth ?? 1,
+                color: borderColor ?? mprimaryColor,
+              )
+            : null,
       ),
       child: widget,
     );

@@ -23,10 +23,10 @@ class _MicroBiiState extends State<MicroBio> {
 
   final List<Widget> _pages = [
     HomePage(),
-    Analyze(),
-    DB(),
-    Log(),
-    Account(),
+    const Analyze(),
+    const DB(),
+    const Log(),
+    const Account(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -34,14 +34,16 @@ class _MicroBiiState extends State<MicroBio> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         selectedItemColor: mprimaryColor,
-        backgroundColor: Color(0xffFDFFFC),
+        backgroundColor: const Color(0xffFDFFFC),
         elevation: 0.5,
         currentIndex: _clickIndex,
         unselectedItemColor: mprimaryColor,
         onTap: (value) {
-          setState(() {
-            _clickIndex = value;
-          });
+          setState(
+            () {
+              _clickIndex = value;
+            },
+          );
         },
         items: [
           for (int i = 0; i < 5; i++)
@@ -64,7 +66,7 @@ class _MicroBiiState extends State<MicroBio> {
                     ),
                     Text(
                       navigationData[i].title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 8,
                         fontWeight: FontWeight.w400,
                         color: mprimaryColor,

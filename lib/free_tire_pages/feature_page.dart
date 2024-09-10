@@ -12,7 +12,7 @@ class Feature extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: mwhiteColor,
       body: SafeArea(
         child: Padding(
@@ -20,68 +20,66 @@ class Feature extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                child: Column(
-                  children: [
-                    TitleBar(context, title: "Suggest a Feature"),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomForm(
-                      noOfField: 3,
-                      hintText: ["Your Name", "Email", "Feature"],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    CustomButton(
-                      isHasWidget: false,
-                      isHasBorder: false,
-                      title: "Submit",
-                    ),
-                  ],
-                ),
+              Column(
+                children: [
+                  titleBar(context, title: "Suggest a Feature"),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomForm(
+                    noOfField: 3,
+                    hintText: const ["Your Name", "Email", "Feature"],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const CustomButton(
+                    isHasWidget: false,
+                    isHasBorder: false,
+                    title: "Submit",
+                  ),
+                ],
               ),
-              Container(
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SubmitTicket(),
-                          ),
-                        );
-                      },
-                      child: CustomButton(
-                        isHasWidget: false,
-                        isHasBorder: true,
-                        title: "Raise a Ticket",
-                        color: mwhiteColor,
-                        textColor: mprimaryColor,
-                      ),
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SubmitTicket(),
+                        ),
+                      );
+                    },
+                    child: const CustomButton(
+                      isHasWidget: false,
+                      isHasBorder: true,
+                      title: "Raise a Ticket",
+                      color: mwhiteColor,
+                      textColor: mprimaryColor,
                     ),
-                    SizedBox(height: 15,),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Review(),
-                          ),
-                        );
-                      },
-                      child: CustomButton(
-                        isHasWidget: false,
-                        isHasBorder: true,
-                        title: "Give a Review",
-                        color: mwhiteColor,
-                        textColor: mprimaryColor,
-                      ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Review(),
+                        ),
+                      );
+                    },
+                    child: const CustomButton(
+                      isHasWidget: false,
+                      isHasBorder: true,
+                      title: "Give a Review",
+                      color: mwhiteColor,
+                      textColor: mprimaryColor,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

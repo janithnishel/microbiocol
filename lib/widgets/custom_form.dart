@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:microbiocol/widgets/custom_txetfiled.dart';
 
 class CustomForm extends StatelessWidget {
- final int noOfField;
+  final int noOfField;
 
   List<String> hintText = [];
   CustomForm({super.key, required this.noOfField, required this.hintText});
@@ -15,7 +15,9 @@ class CustomForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 15),
             child: CustomTextField(
-                hintText: hintText[i], maxLines: noOfField - 1 == i ? 5 : null),
+              hintText: hintText[i],
+              maxLines: noOfField - 1 == i ? 5 : null,
+            ),
           ),
       ],
     );

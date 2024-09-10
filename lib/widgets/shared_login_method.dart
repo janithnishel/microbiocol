@@ -12,32 +12,33 @@ Widget loginMethod() {
           flex: 1,
           child: Padding(
             padding: a == 0
-                ? EdgeInsets.only(right: 8)
+                ? const EdgeInsets.only(right: 8)
                 : a == 2
-                    ? EdgeInsets.only(left: 8)
-                    : EdgeInsets.only(left: 4, right: 4),
+                    ? const EdgeInsets.only(left: 8)
+                    : const EdgeInsets.only(left: 4, right: 4),
             child: CustomButton(
               isHasWidget: true,
               color: mwhiteColor,
               isHasBorder: true,
               widget: Center(
-                  child: a == 0
-                      ? Image.asset(
-                          "assets/images/google.png",
-                          fit: BoxFit.cover,
-                          width: 16,
-                          height: 16,
-                        )
-                      : a == 1
-                          ? const Icon(
-                              FontAwesomeIcons.facebook,
-                              color: Color(0xff0F6AEF),
-                              size: 18,
-                            )
-                          : const Icon(
-                              FontAwesomeIcons.squareXTwitter,
-                              size: 18,
-                            )),
+                child: a == 0
+                    ? Image.asset(
+                        "assets/images/google.png",
+                        fit: BoxFit.cover,
+                        width: 16,
+                        height: 16,
+                      )
+                    : a == 1
+                        ? const Icon(
+                            FontAwesomeIcons.facebook,
+                            color: Color(0xff0F6AEF),
+                            size: 18,
+                          )
+                        : const Icon(
+                            FontAwesomeIcons.squareXTwitter,
+                            size: 18,
+                          ),
+              ),
             ),
           ),
         ),

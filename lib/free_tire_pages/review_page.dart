@@ -20,98 +20,94 @@ class Review extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                child: Column(
-                  children: [
-                    TitleBar(context, title: "Review"),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomForm(
-                      noOfField: 3,
-                      hintText: ["Your Name", "Email", "Review"],
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Give Us a Start Rate",
-                          style: TextStyle(
-                            color: mprimaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                          ),
+              Column(
+                children: [
+                  titleBar(context, title: "Review"),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomForm(
+                    noOfField: 3,
+                    hintText: const ["Your Name", "Email", "Review"],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Give Us a Start Rate",
+                        style: TextStyle(
+                          color: mprimaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
                         ),
-                        SizedBox(
-                          width: 140,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              for (int i = 0; i < 5; i++)
-                                Icon(
-                                  Icons.star_border,
-                                  size: 25,
-                                  color: mprimaryColor,
-                                ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    CustomButton(
-                      isHasWidget: false,
-                      isHasBorder: false,
-                      title: "Submit",
-                    ),
-                  ],
-                ),
+                      ),
+                      SizedBox(
+                        width: 140,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            for (int i = 0; i < 5; i++)
+                              const Icon(
+                                Icons.star_border,
+                                size: 25,
+                                color: mprimaryColor,
+                              ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const CustomButton(
+                    isHasWidget: false,
+                    isHasBorder: false,
+                    title: "Submit",
+                  ),
+                ],
               ),
-              Container(
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SubmitTicket(),
-                          ),
-                        );
-                      },
-                      child: CustomButton(
-                        isHasWidget: false,
-                        isHasBorder: true,
-                        title: "Raise a Ticket",
-                        color: mwhiteColor,
-                        textColor: mprimaryColor,
-                      ),
+              Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SubmitTicket(),
+                        ),
+                      );
+                    },
+                    child: const CustomButton(
+                      isHasWidget: false,
+                      isHasBorder: true,
+                      title: "Raise a Ticket",
+                      color: mwhiteColor,
+                      textColor: mprimaryColor,
                     ),
-                    SizedBox(height: 15),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Feature(),
-                          ),
-                        );
-                      },
-                      child: CustomButton(
-                        isHasWidget: false,
-                        isHasBorder: true,
-                        title: "Suggest a Feature",
-                        color: mwhiteColor,
-                        textColor: mprimaryColor,
-                      ),
+                  ),
+                  const SizedBox(height: 15),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Feature(),
+                        ),
+                      );
+                    },
+                    child: const CustomButton(
+                      isHasWidget: false,
+                      isHasBorder: true,
+                      title: "Suggest a Feature",
+                      color: mwhiteColor,
+                      textColor: mprimaryColor,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

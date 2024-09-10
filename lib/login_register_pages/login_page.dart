@@ -28,98 +28,96 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: mprimaryColor,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: mprimaryColor,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  Form(
+                    child: Column(
+                      children: [
+                        const CustomTextField(
+                          hintText: "Email",
+                          keyBoardType: TextInputType.emailAddress,
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 50),
-                    Form(
-                      child: Column(
-                        children: [
-                          CustomTextField(
-                            hintText: "Email",
-                            keyBoardType: TextInputType.emailAddress,
+                        const SizedBox(height: 15),
+                        CustomTextField(
+                          hintText: "Password",
+                          isObscureText: isShow,
+                          isHasSuffixIcon: true,
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              setState(
+                                () {
+                                  isShow = !isShow;
+                                },
+                              );
+                            },
+                            child: isShow
+                                ? const Icon(
+                                    FontAwesomeIcons.eye,
+                                    size: 12,
+                                    color: mprimaryColor,
+                                  )
+                                : const Icon(
+                                    FontAwesomeIcons.eyeSlash,
+                                    size: 12,
+                                    color: mprimaryColor,
+                                  ),
                           ),
-                          SizedBox(height: 15),
-                          CustomTextField(
-                            hintText: "Password",
-                            isObscureText: isShow,
-                            isHasSuffixIcon: true,
-                            suffixIcon: InkWell(
-                              onTap: () {
-                                setState(
-                                  () {
-                                    isShow = !isShow;
-                                  },
-                                );
-                              },
-                              child: isShow
-                                  ? Icon(
-                                      FontAwesomeIcons.eye,
-                                      size: 12,
-                                      color: mprimaryColor,
-                                    )
-                                  : Icon(
-                                      FontAwesomeIcons.eyeSlash,
-                                      size: 12,
-                                      color: mprimaryColor,
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MicroBio(),
-                          ),
-                        );
-                      },
-                      child: const CustomButton(
-                        isHasWidget: false,
-                        title: "Login",
-                        isHasBorder: false,
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ForgotPassword(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "Forgot Your Password?",
-                        style: TextStyle(
-                          color: mprimaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
                         ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MicroBio(),
+                        ),
+                      );
+                    },
+                    child: const CustomButton(
+                      isHasWidget: false,
+                      title: "Login",
+                      isHasBorder: false,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPassword(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "Forgot Your Password?",
+                      style: TextStyle(
+                        color: mprimaryColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    loginMethod(),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  loginMethod(),
+                ],
               ),
               GestureDetector(
                 onTap: () {

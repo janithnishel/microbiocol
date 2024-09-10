@@ -24,18 +24,18 @@ class _SubscriptionState extends State<Subscription> {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: Column(
               children: [
-                TitleBar(
+                titleBar(
                   context,
                   title: "Subscriptions",
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   children: [
                     optionButton("Free", 48,
                         0), // Calling the method and passing the appropriate parameters
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     optionButton("Premium", 80, 1)
@@ -57,29 +57,32 @@ class _SubscriptionState extends State<Subscription> {
   Widget optionButton(String title, double width, int index) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _onTap = index;
-          print(_onTap);
-        });
+        setState(
+          () {
+            _onTap = index;
+          },
+        );
       },
       child: CustommBox(
         isHasBoxShadow: false,
-          width: width,
-          height: 32,
-          borderRadius: 8,
-          color: _onTap == index
-              ? maccentGreenColor
-              : maccentGreenColor.withOpacity(0.25),
-          widget: Center(
-            child: Text(
-              title,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: mprimaryColor),
+        width: width,
+        height: 32,
+        borderRadius: 8,
+        color: _onTap == index
+            ? maccentGreenColor
+            : maccentGreenColor.withOpacity(0.25),
+        widget: Center(
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: mprimaryColor,
             ),
           ),
-          isHasBorder: false),
+        ),
+        isHasBorder: false,
+      ),
     );
   }
 
@@ -90,17 +93,17 @@ class _SubscriptionState extends State<Subscription> {
       child: _onTap == 0
           ? Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.check_sharp,
                   color: mprimaryColor,
                   size: 20,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Text(
                   SubscriptionData.SubscriptionDataList[index].title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: mprimaryColor,
@@ -108,7 +111,7 @@ class _SubscriptionState extends State<Subscription> {
                 )
               ],
             )
-          : Center(
+          : const Center(
               child: Text(
                 "",
                 style: TextStyle(

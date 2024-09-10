@@ -3,14 +3,14 @@ import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 
-   class  InfoBox {
+class InfoBox {
   Widget freeIdentification() {
-   return remainderBox(
+    return remainderBox(
         "Your remaining free identification count for this month is", 3);
   }
 
   Widget purchaseIdentification() {
-   return remainderBox("Your remaining purchased identification count is", 14);
+    return remainderBox("Your remaining purchased identification count is", 14);
   }
 
   Widget remainderBox(String title, int count) {
@@ -28,7 +28,7 @@ import 'package:microbiocol/widgets/custom_button.dart';
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
                 color: mprimaryColor,
@@ -37,13 +37,13 @@ import 'package:microbiocol/widgets/custom_button.dart';
             ),
             Text(
               count.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
                 color: maccentGreenColor,
               ),
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomButton(

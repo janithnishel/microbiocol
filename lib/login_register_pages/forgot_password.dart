@@ -17,7 +17,7 @@ class ForgotPassword extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -32,9 +32,10 @@ class ForgotPassword extends StatelessWidget {
                   const Text(
                     "Forgot Your Password?",
                     style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: mprimaryColor),
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: mprimaryColor,
+                    ),
                   ),
                 ],
               ),
@@ -48,7 +49,10 @@ class ForgotPassword extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 50),
-              const CustomTextField(hintText: "Email",keyBoardType: TextInputType.emailAddress,),
+              const CustomTextField(
+                hintText: "Email",
+                keyBoardType: TextInputType.emailAddress,
+              ),
               const SizedBox(height: 30),
               const CustomButton(
                 isHasWidget: false,

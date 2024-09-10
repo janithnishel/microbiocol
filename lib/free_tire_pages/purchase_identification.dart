@@ -11,8 +11,8 @@ class PurchaseIdentification extends StatelessWidget {
 
   final infoBox = InfoBox();
 
-//create the instance for fetch the purchase details
-  final PurchaseDetails = PurchaseDetailsData().PurchaseDetailsDataList;
+  //create the instance for fetch the purchase details
+  final purchaseDetails = PurchaseDetailsData().PurchaseDetailsDataList;
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +46,18 @@ class PurchaseIdentification extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               ListView.builder(
-                itemCount: PurchaseDetails.length,
+                itemCount: purchaseDetails.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  final data = PurchaseDetails[index];
+                  final data = purchaseDetails[index];
 
-                   return _identificationOption(data, context);
+                  return _identificationOption(data, context);
                 },
               )
             ],
@@ -76,14 +78,14 @@ class PurchaseIdentification extends StatelessWidget {
         borderRadius: 8,
         color: mwhiteColor,
         widget: Padding(
-          padding: const EdgeInsets.symmetric( vertical: 10,horizontal: 15),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "${data.count} Counts",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w400,
                   color: mprimaryColor,
@@ -91,7 +93,7 @@ class PurchaseIdentification extends StatelessWidget {
               ),
               Text(
                 "\$${data.price.toStringAsFixed(0)} ",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w900,
                   color: mprimaryColor,

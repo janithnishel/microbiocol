@@ -13,14 +13,14 @@ class LoadingScreen extends StatelessWidget {
       backgroundColor: mwhiteColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 15, right: 15, top: 50, bottom: 20),
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 50, bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 flex: 1,
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: [
@@ -30,10 +30,10 @@ class LoadingScreen extends StatelessWidget {
                         height: 160,
                         width: 160,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         "Login or Create a Account",
                         style: TextStyle(
                           fontFamily: "Lato",
@@ -48,7 +48,7 @@ class LoadingScreen extends StatelessWidget {
               ),
               Expanded(
                 flex: 1,
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -90,8 +90,6 @@ class LoadingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
-            
             ],
           ),
         ),

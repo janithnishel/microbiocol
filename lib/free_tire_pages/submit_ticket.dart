@@ -23,10 +23,149 @@ class SubmitTicket extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      child: Column(
+                    Column(
+                      children: [
+                        titleBar(context, title: "Submit a Ticket"),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomForm(
+                          noOfField: 4,
+                          hintText: const [
+                            "Your Name",
+                            "Email",
+                            "Subject",
+                            "Issue Description",
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Attachments \n(optional)",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                                color: mprimaryColor,
+                              ),
+                            ),
+                            CustommBox(
+                              isHasBoxShadow: false,
+                              width: 184,
+                              height: 36,
+                              borderRadius: 8,
+                              color: mwhiteColor,
+                              widget: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.file_upload_outlined,
+                                    color: mprimaryColor,
+                                    size: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Choose from gallery",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: mprimaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              isHasBorder: true,
+                            ),
+                            CustommBox(
+                              isHasBoxShadow: false,
+                              width: 32,
+                              height: 36,
+                              borderRadius: 8,
+                              color: mwhiteColor,
+                              widget: Center(
+                                child: Icon(
+                                  Icons.cloud_upload_outlined,
+                                  color: mprimaryColor,
+                                  size: 15,
+                                ),
+                              ),
+                              isHasBorder: true,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        const CustomButton(
+                          isHasWidget: false,
+                          isHasBorder: false,
+                          title: "Raise Ticket",
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Review(),
+                              ),
+                            );
+                          },
+                          child: const CustomButton(
+                            isHasWidget: false,
+                            isHasBorder: true,
+                            title: "Give a Review",
+                            color: mwhiteColor,
+                            textColor: mprimaryColor,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Feature(),
+                              ),
+                            );
+                          },
+                          child: const CustomButton(
+                            isHasWidget: false,
+                            isHasBorder: true,
+                            title: "Suggest a Feature",
+                            color: mwhiteColor,
+                            textColor: mprimaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : SingleChildScrollView(
+              child: SafeArea(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
                         children: [
-                          TitleBar(context, title: "Submit a Ticket"),
+                          titleBar(context, title: "Submit a Ticket"),
                           const SizedBox(
                             height: 10,
                           ),
@@ -100,19 +239,20 @@ class SubmitTicket extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
-                          CustomButton(
+                          const CustomButton(
                             isHasWidget: false,
                             isHasBorder: false,
                             title: "Raise Ticket",
                           ),
                         ],
                       ),
-                    ),
-                    Container(
-                      child: Column(
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
@@ -120,11 +260,11 @@ class SubmitTicket extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Review(),
+                                  builder: (context) => const Review(),
                                 ),
                               );
                             },
-                            child: CustomButton(
+                            child: const CustomButton(
                               isHasWidget: false,
                               isHasBorder: true,
                               title: "Give a Review",
@@ -132,7 +272,7 @@ class SubmitTicket extends StatelessWidget {
                               textColor: mprimaryColor,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           GestureDetector(
@@ -140,11 +280,11 @@ class SubmitTicket extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Feature(),
+                                  builder: (context) => const Feature(),
                                 ),
                               );
                             },
-                            child: CustomButton(
+                            child: const CustomButton(
                               isHasWidget: false,
                               isHasBorder: true,
                               title: "Suggest a Feature",
@@ -153,154 +293,6 @@ class SubmitTicket extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : SingleChildScrollView(
-              child: SafeArea(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            TitleBar(context, title: "Submit a Ticket"),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CustomForm(
-                              noOfField: 4,
-                              hintText: const [
-                                "Your Name",
-                                "Email",
-                                "Subject",
-                                "Issue Description",
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Attachments \n(optional)",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                    color: mprimaryColor,
-                                  ),
-                                ),
-                                CustommBox(
-                                  isHasBoxShadow: false,
-                                  width: 184,
-                                  height: 36,
-                                  borderRadius: 8,
-                                  color: mwhiteColor,
-                                  widget: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.file_upload_outlined,
-                                        color: mprimaryColor,
-                                        size: 20,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "Choose from gallery",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: mprimaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  isHasBorder: true,
-                                ),
-                                CustommBox(
-                                  isHasBoxShadow: false,
-                                  width: 32,
-                                  height: 36,
-                                  borderRadius: 8,
-                                  color: mwhiteColor,
-                                  widget: Center(
-                                    child: Icon(
-                                      Icons.cloud_upload_outlined,
-                                      color: mprimaryColor,
-                                      size: 15,
-                                    ),
-                                  ),
-                                  isHasBorder: true,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            CustomButton(
-                              isHasWidget: false,
-                              isHasBorder: false,
-                              title: "Raise Ticket",
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Review(),
-                                  ),
-                                );
-                              },
-                              child: CustomButton(
-                                isHasWidget: false,
-                                isHasBorder: true,
-                                title: "Give a Review",
-                                color: mwhiteColor,
-                                textColor: mprimaryColor,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Feature(),
-                                  ),
-                                );
-                              },
-                              child: CustomButton(
-                                isHasWidget: false,
-                                isHasBorder: true,
-                                title: "Suggest a Feature",
-                                color: mwhiteColor,
-                                textColor: mprimaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
                     ],
                   ),

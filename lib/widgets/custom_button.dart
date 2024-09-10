@@ -10,20 +10,21 @@ class CustomButton extends StatelessWidget {
   final bool isHasWidget;
   final bool isHasBorder;
 
-  const CustomButton(
-      {super.key,
-      this.width,
-      this.color,
-      this.textColor,
-      this.title,
-      this.widget,
-      required this.isHasWidget,
-      required this.isHasBorder});
+  const CustomButton({
+    super.key,
+    this.width,
+    this.color,
+    this.textColor,
+    this.title,
+    this.widget,
+    required this.isHasWidget,
+    required this.isHasBorder,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width??MediaQuery.of(context).size.width,
+      width: width ?? MediaQuery.of(context).size.width,
       height: 36,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

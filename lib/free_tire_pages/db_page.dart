@@ -23,7 +23,7 @@ class _DBState extends State<DB> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Column(
             children: [
-              CustomTextField(
+              const CustomTextField(
                 hintText: "Search",
                 keyBoardType: TextInputType.text,
                 isHasSuffixIcon: true,
@@ -36,11 +36,11 @@ class _DBState extends State<DB> {
               ListView.builder(
                 itemCount: DBData.dbDataList.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   final data = DBData.dbDataList[index];
-                  return _MicroAnimalDetailCard(data);
+                  return _buildMicroAnimalDetailCard(data);
                 },
               )
             ],
@@ -50,7 +50,7 @@ class _DBState extends State<DB> {
     );
   }
 
-  Widget _MicroAnimalDetailCard(DbModel data) {
+  Widget _buildMicroAnimalDetailCard(DbModel data) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Row(
@@ -82,7 +82,7 @@ class _DBState extends State<DB> {
                   children: [
                     Text(
                       data.type,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
                         color: mprimaryColor,
@@ -90,16 +90,16 @@ class _DBState extends State<DB> {
                     ),
                     Text(
                       data.animalName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                         color: mprimaryColor,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       overflow: TextOverflow.ellipsis,
-                      "${data.description}",
+                      data.description,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -108,8 +108,8 @@ class _DBState extends State<DB> {
                       maxLines: 3,
                       textAlign: TextAlign.start,
                     ),
-                    SizedBox(height: 8),
-                    CustomButton(
+                    const SizedBox(height: 8),
+                    const CustomButton(
                       isHasWidget: false,
                       isHasBorder: false,
                       title: "Save",
