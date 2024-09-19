@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:microbiocol/data/db_data.dart';
+import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/models/db_model.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
@@ -14,6 +17,12 @@ class DB extends StatefulWidget {
 }
 
 class _DBState extends State<DB> {
+// tracking the tier
+  bool isFreeTier = checkTire();
+
+// tracking the buttton is clicked
+  int _onTap = 99;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +49,7 @@ class _DBState extends State<DB> {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   final data = DBData.dbDataList[index];
-                  return _buildMicroAnimalDetailCard(data);
+                  return _buildMicroAnimalDetailCard(data, index);
                 },
               )
             ],
@@ -50,7 +59,7 @@ class _DBState extends State<DB> {
     );
   }
 
-  Widget _buildMicroAnimalDetailCard(DbModel data) {
+  Widget _buildMicroAnimalDetailCard(DbModel data, int index) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Row(
@@ -109,12 +118,38 @@ class _DBState extends State<DB> {
                       textAlign: TextAlign.start,
                     ),
                     const SizedBox(height: 8),
-                    const CustomButton(
-                      isHasWidget: false,
-                      isHasBorder: false,
-                      title: "Save",
-                      width: 50,
-                    )
+                    isFreeTier
+                        ? GestureDetector(
+                            onTap: () {
+                              setState(
+                                () {
+                                  _onTap = index;
+                                },
+                              );
+                            },
+                            child: const CustomButton(
+                              isHasWidget: false,
+                              isHasBorder: false,
+                              title: "Save",
+                              width: 50,
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              setState(
+                                () {
+                         _onTap = index;
+                                },
+                              );
+                            },
+                            child: CustomButton(
+                              isHasWidget: false,
+                              isHasBorder: false,
+                              title: _onTap == index ? "Saved" : "Save",
+                              width: _onTap == index ? 58 : 50,
+                              color: _onTap == index ? maccentBlueColor : null,
+                            ),
+                          ),
                   ],
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/free_tire_pages/feature_page.dart';
 import 'package:microbiocol/free_tire_pages/submit_ticket.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -7,8 +8,11 @@ import 'package:microbiocol/widgets/custom_form.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class Review extends StatelessWidget {
-  const Review({super.key});
+  Review({super.key});
 
+  //tracking tier
+
+  bool isFreeTier = checkTire();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,14 +81,16 @@ class Review extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SubmitTicket(),
+                          builder: (context) => SubmitTicket(),
                         ),
                       );
                     },
-                    child: const CustomButton(
+                    child: CustomButton(
                       isHasWidget: false,
                       isHasBorder: true,
-                      title: "Raise a Ticket",
+                      title: isFreeTier
+                          ? "Raise a Ticket"
+                          : "Raise a Priority Ticket",
                       color: mwhiteColor,
                       textColor: mprimaryColor,
                     ),
@@ -95,7 +101,7 @@ class Review extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Feature(),
+                          builder: (context) => Feature(),
                         ),
                       );
                     },

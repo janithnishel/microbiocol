@@ -19,7 +19,7 @@ class LogData {
       icon: null,
       logTitle: "Free Count",
       time: "16.54 PM",
-      imageUrl: "assets/images/count.svg",
+      imageUrl: "assets/images/abacus.svg",
     ),
     LogModel(
       icon: Icons.camera_alt_outlined,

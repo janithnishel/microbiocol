@@ -21,12 +21,16 @@ class _MicroBiiState extends State<MicroBio> {
   // tracking the taped button index no
   int _clickIndex = 0;
 
+//tracking the free tire or premium
+
+  bool isFreeTier = false;
+
   final List<Widget> _pages = [
     HomePage(),
     const Analyze(),
     const DB(),
     const Log(),
-    const Account(),
+    Account(),
   ];
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
@@ -14,7 +16,7 @@ class DetailsPage extends StatelessWidget {
     "Consectetur adipiscing elit"
   ];
   //check whether the free tire or premium
-  final bool isFreeTire = true;
+  bool isFreeTire = checkTire();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,11 +131,13 @@ class DetailsPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 i == 0
-                                    ? Image.asset(
-                                        "assets/images/count.svg",
+                                    ? SvgPicture.asset(
+                                        "assets/images/abacus.svg",
                                         fit: BoxFit.cover,
-                                        width: 13,
-                                        height: 13,
+                                        // ignore: deprecated_member_use
+                                        color: mwhiteColor,
+                                        width: 16,
+                                        height: 16,
                                       )
                                     : const Padding(
                                         padding: EdgeInsets.only(top: 2),
@@ -240,8 +244,6 @@ class DetailsPage extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 5, top: 1),
                                 child: Row(
-                                  // mainAxisAlignment: MainAxisAlignment.start,
-                                  // crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     const Icon(
                                       Icons.circle,

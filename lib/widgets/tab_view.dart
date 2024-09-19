@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:microbiocol/utils/colors.dart';
 
 class TabView extends StatefulWidget {
@@ -100,11 +101,12 @@ class _TabViewState extends State<TabView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
+                  SvgPicture.asset(
                     widget.rightSideimage,
                     fit: BoxFit.cover,
                     width: 18,
                     height: 18,
+                    // ignore: deprecated_member_use
                     color: _isTap == 1
                         ? mprimaryColor
                         : mprimaryColor.withOpacity(0.5),

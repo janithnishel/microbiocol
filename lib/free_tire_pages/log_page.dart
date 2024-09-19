@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:microbiocol/data/log_data.dart';
 import 'package:microbiocol/models/log_model.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -34,7 +35,7 @@ class _LogState extends State<Log> {
                   leftSideTitle: "Stacks Log",
                   leftSideIcon: Icons.my_library_add_outlined,
                   righttSideTitle: "Counts Log",
-                  rightSideimage: "assets/images/count.svg",
+                  rightSideimage: "assets/images/abacus.svg",
                   onTap: (a) {
                     setState(
                       () {
@@ -99,7 +100,7 @@ class _LogState extends State<Log> {
                           ),
                         )
                       : Center(
-                          child: Image.asset(
+                          child: SvgPicture.asset(
                             data.imageUrl!,
                             fit: BoxFit.cover,
                             width: 13,

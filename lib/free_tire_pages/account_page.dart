@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:microbiocol/data/premium_profile_data.dart';
 import 'package:microbiocol/data/profile_data.dart';
+import 'package:microbiocol/models/premium_profile_model.dart';
 import 'package:microbiocol/models/profile_model.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
@@ -7,13 +9,18 @@ import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class Account extends StatefulWidget {
-  const Account({super.key});
+  const Account({
+    super.key,
+  });
 
   @override
   State<Account> createState() => _AccountState();
 }
 
 class _AccountState extends State<Account> {
+  //tracking the free tire or premium
+
+  bool isFreeTier = checkTire();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,11 +52,11 @@ class _AccountState extends State<Account> {
                   const SizedBox(
                     width: 20,
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "Jhon Doe",
                         style: TextStyle(
                           fontSize: 24,
@@ -57,19 +64,19 @@ class _AccountState extends State<Account> {
                           color: mprimaryColor,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       CustommBox(
                         isHasBoxShadow: false,
-                        width: 80,
+                        width: isFreeTier ? 80 : 110,
                         height: 24,
                         borderRadius: 8,
                         color: maccentGreenColor,
                         widget: Center(
                           child: Text(
-                            "Free Tire",
-                            style: TextStyle(
+                            isFreeTier ? "Free Tire" : "Premium Tire",
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w300,
                               color: mprimaryColor,
@@ -86,14 +93,19 @@ class _AccountState extends State<Account> {
                 height: 40,
               ),
               ListView.builder(
-                itemCount: ProfileData.ProfileDataList.length,
+                itemCount: isFreeTier
+                    ? ProfileData.ProfileDataList.length
+                    : PremiumProfileData.premiumProfileDataList.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  ProfileModel data = ProfileData.ProfileDataList[index];
+                  // ProfileModel freeTierData =
+                  //     ProfileData.ProfileDataList[index];
+                  // PremiumProfileModel premiumTierData =
+                  //     PremiumProfileData.premiumProfileDataList[index];
 
-                  return _profileSelections(data);
+                  return _buildProfileSelections(index);
                 },
               ),
               const SizedBox(
@@ -123,7 +135,7 @@ class _AccountState extends State<Account> {
   }
 
   //create a single row of profile silection
-  Widget _profileSelections(ProfileModel data) {
+  Widget _buildProfileSelections(int index) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Row(
@@ -137,7 +149,9 @@ class _AccountState extends State<Account> {
             color: const Color(0xff1C1D33).withOpacity(0.4),
             widget: Center(
               child: Icon(
-                data.icon,
+                isFreeTier
+                    ? ProfileData.ProfileDataList[index].icon
+                    : PremiumProfileData.premiumProfileDataList[index].icon,
                 size: 20,
                 color: mprimaryColor,
               ),
@@ -150,7 +164,9 @@ class _AccountState extends State<Account> {
           SizedBox(
             width: 228,
             child: Text(
-              data.title,
+              isFreeTier
+                  ? ProfileData.ProfileDataList[index].title
+                  : PremiumProfileData.premiumProfileDataList[index].title,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w400,

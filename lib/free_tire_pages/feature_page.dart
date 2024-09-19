@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/free_tire_pages/review_page.dart';
 import 'package:microbiocol/free_tire_pages/submit_ticket.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -7,7 +8,11 @@ import 'package:microbiocol/widgets/custom_form.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class Feature extends StatelessWidget {
-  const Feature({super.key});
+  Feature({super.key});
+
+  //check tier
+
+  bool isFreeTier = checkTire();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class Feature extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  titleBar(context, title: "Suggest a Feature"),
+                  titleBar(context, title:"Suggest a Feature"),
                   const SizedBox(
                     height: 10,
                   ),
@@ -47,14 +52,14 @@ class Feature extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SubmitTicket(),
+                          builder: (context) =>  SubmitTicket(),
                         ),
                       );
                     },
-                    child: const CustomButton(
+                    child:  CustomButton(
                       isHasWidget: false,
                       isHasBorder: true,
-                      title: "Raise a Ticket",
+                      title: isFreeTier? "Raise a Ticket":"Raise a Priority Ticket",
                       color: mwhiteColor,
                       textColor: mprimaryColor,
                     ),
@@ -67,7 +72,7 @@ class Feature extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Review(),
+                          builder: (context) => Review(),
                         ),
                       );
                     },

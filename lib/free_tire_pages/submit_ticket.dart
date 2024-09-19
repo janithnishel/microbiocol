@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/free_tire_pages/feature_page.dart';
 import 'package:microbiocol/free_tire_pages/review_page.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -9,7 +10,10 @@ import 'package:microbiocol/widgets/custom_form.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class SubmitTicket extends StatelessWidget {
-  const SubmitTicket({super.key});
+  SubmitTicket({super.key});
+
+  //check the tier
+  bool isFreeTier = checkTire();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,10 @@ class SubmitTicket extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        titleBar(context, title: "Submit a Ticket"),
+                        titleBar(context,
+                            title: isFreeTier
+                                ? "Submit a Ticket"
+                                : "Priority Ticket"),
                         const SizedBox(
                           height: 10,
                         ),
@@ -117,7 +124,7 @@ class SubmitTicket extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const Review(),
+                                builder: (context) => Review(),
                               ),
                             );
                           },
@@ -137,7 +144,7 @@ class SubmitTicket extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const Feature(),
+                                builder: (context) => Feature(),
                               ),
                             );
                           },
@@ -165,7 +172,10 @@ class SubmitTicket extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          titleBar(context, title: "Submit a Ticket"),
+                          titleBar(context,
+                              title: isFreeTier
+                                  ? "Submit a Ticket"
+                                  : "Priority Ticket"),
                           const SizedBox(
                             height: 10,
                           ),
@@ -260,7 +270,7 @@ class SubmitTicket extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const Review(),
+                                  builder: (context) => Review(),
                                 ),
                               );
                             },
@@ -280,7 +290,7 @@ class SubmitTicket extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const Feature(),
+                                  builder: (context) => Feature(),
                                 ),
                               );
                             },

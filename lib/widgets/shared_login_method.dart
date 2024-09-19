@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
@@ -22,21 +23,21 @@ Widget loginMethod() {
               isHasBorder: true,
               widget: Center(
                 child: a == 0
-                    ? Image.asset(
-                        "assets/images/google.png",
+                    ? SvgPicture.asset(
+                        "assets/images/google.svg",
                         fit: BoxFit.cover,
-                        width: 16,
                         height: 16,
+                        width: 16,
                       )
                     : a == 1
                         ? const Icon(
                             FontAwesomeIcons.facebook,
                             color: Color(0xff0F6AEF),
-                            size: 18,
+                            size: 16,
                           )
                         : const Icon(
                             FontAwesomeIcons.squareXTwitter,
-                            size: 18,
+                            size: 16,
                           ),
               ),
             ),

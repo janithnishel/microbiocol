@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/data/recent_card_data.dart';
 import 'package:microbiocol/data/saved_item_data.dart';
 import 'package:microbiocol/models/recent_card_model.dart';
@@ -20,7 +22,7 @@ class HomePage extends StatelessWidget {
 
   final savedData = SavedItemData().savedDataList;
   //check whether the free tire or premium
-  final bool isFreeTire = true;
+  final bool isFreeTire = checkTire();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,8 +99,8 @@ class HomePage extends StatelessWidget {
                         flex: 1,
                         child: Padding(
                           padding: i == 0
-                              ? EdgeInsets.only(right: 8)
-                              : EdgeInsets.only(left: 8),
+                              ? const EdgeInsets.only(right: 8)
+                              : const EdgeInsets.only(left: 8),
                           child: CustomButton(
                             isHasWidget: true,
                             isHasBorder: false,
@@ -107,11 +109,13 @@ class HomePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 i == 0
-                                    ? Image.asset(
-                                        "assets/images/count.svg",
+                                    ? SvgPicture.asset(
+                                        "assets/images/abacus.svg",
                                         fit: BoxFit.cover,
-                                        width: 13,
-                                        height: 13,
+                                        width: 16,
+                                        height: 16,
+                                        // ignore: deprecated_member_use
+                                        color: mwhiteColor,
                                       )
                                     : const Padding(
                                         padding: EdgeInsets.only(top: 2),

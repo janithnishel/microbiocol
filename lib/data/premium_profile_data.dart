@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:microbiocol/models/profile_model.dart';
+import 'package:microbiocol/models/premium_profile_model.dart';
 
-class ProfileData {
-  static List<ProfileModel> ProfileDataList = [
-    ProfileModel(
+class PremiumProfileData {
+  static List<PremiumProfileModel> premiumProfileDataList = [
+    PremiumProfileModel(
       icon: FontAwesomeIcons.user,
       title: "Personal Information",
     ),
-    ProfileModel(
+    PremiumProfileModel(
+      icon: Icons.snippet_folder_outlined,
+      title: "Folders",
+    ),
+    PremiumProfileModel(
       icon: FontAwesomeIcons.bell,
       title: "Notification Settings",
     ),
-    ProfileModel(
+    PremiumProfileModel(
       icon: Icons.account_balance_wallet_outlined,
       title: "Subscription Settings",
     ),
-    ProfileModel(
+    PremiumProfileModel(
+      icon: Icons.science_outlined,
+      title: "Lab Settings",
+    ),
+    PremiumProfileModel(
       icon: Icons.cloud_upload_outlined,
       title: "User Backup",
     ),
-    ProfileModel(
+    PremiumProfileModel(
       icon: Icons.info_outline,
       title: "Support",
     ),
   ];
-}
-
-//this booolean value is change according to the tier
-bool isfreeTier = false;
-//tracking the tier
-
-bool checkTire() {
-  return isfreeTier;
 }
