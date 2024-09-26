@@ -1,7 +1,10 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:microbiocol/login_register_pages/splash_screen.dart';
+import 'package:microbiocol/desktop/desktop_login.dart';
 
-void main() {
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // final cameras = await availableCameras();
   runApp(const MyApp());
 }
 
@@ -17,7 +20,7 @@ class MyApp extends StatelessWidget {
               fontFamily: "Lato",
             ),
       ),
-      home: const SplashScreen(),
+      home: DesktopLogin(),
     );
   }
 }

@@ -11,6 +11,10 @@ class CustommBox extends StatelessWidget {
   final bool isHasBoxShadow;
   final Color? borderColor;
   final double? borderWidth;
+  final double? blurRadius;
+  final double? y;
+  final Color? boxShadowColor;
+
   const CustommBox({
     super.key,
     required this.width,
@@ -22,6 +26,9 @@ class CustommBox extends StatelessWidget {
     required this.isHasBoxShadow,
     this.borderColor,
     this.borderWidth,
+    this.blurRadius,
+    this.y,
+    this.boxShadowColor,
   });
 
   @override
@@ -35,9 +42,9 @@ class CustommBox extends StatelessWidget {
         boxShadow: [
           isHasBoxShadow
               ? BoxShadow(
-                  blurRadius: 16,
-                  offset: const Offset(0, 5),
-                  color: mBlack.withOpacity(0.15),
+                  blurRadius: blurRadius ?? 16,
+                  offset: Offset(0, y ?? 5),
+                  color: boxShadowColor ?? mBlack.withOpacity(0.15),
                 )
               : const BoxShadow(
                   blurRadius: 0,

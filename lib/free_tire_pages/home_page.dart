@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/data/recent_card_data.dart';
 import 'package:microbiocol/data/saved_item_data.dart';
+import 'package:microbiocol/free_tire_pages/camerascreen.dart';
 import 'package:microbiocol/models/recent_card_model.dart';
 import 'package:microbiocol/models/saved_item_model.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -11,18 +12,23 @@ import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/lock_box.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
 
-  // fetching data from recentcard class
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  // fetching data from recentcard class
   final recentData = RecentCardData().recentDataList;
 
 // fetching data from savedItem class
-
   final savedData = SavedItemData().savedDataList;
+
   //check whether the free tire or premium
   final bool isFreeTire = checkTire();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,44 +107,55 @@ class HomePage extends StatelessWidget {
                           padding: i == 0
                               ? const EdgeInsets.only(right: 8)
                               : const EdgeInsets.only(left: 8),
-                          child: CustomButton(
-                            isHasWidget: true,
-                            isHasBorder: false,
-                            widget: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                i == 0
-                                    ? SvgPicture.asset(
-                                        "assets/images/abacus.svg",
-                                        fit: BoxFit.cover,
-                                        width: 16,
-                                        height: 16,
-                                        // ignore: deprecated_member_use
-                                        color: mwhiteColor,
-                                      )
-                                    : const Padding(
-                                        padding: EdgeInsets.only(top: 2),
-                                        child: Icon(
-                                          Icons.camera_alt_outlined,
-                                          color: Color(0xffFDFFFC),
-                                          size: 15,
-                                        ),
-                                      ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  i == 0 ? "Count" : "Identify",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(
-                                      0xffFDFFFC,
-                                    ),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (i == 1)
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CameraUI(),
                                   ),
-                                )
-                              ],
+                                );
+                            },
+                            child: CustomButton(
+                              isHasWidget: true,
+                              isHasBorder: false,
+                              widget: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  i == 0
+                                      ? SvgPicture.asset(
+                                          "assets/images/abacus.svg",
+                                          fit: BoxFit.cover,
+                                          width: 16,
+                                          height: 16,
+                                          // ignore: deprecated_member_use
+                                          color: mwhiteColor,
+                                        )
+                                      : const Padding(
+                                          padding: EdgeInsets.only(top: 2),
+                                          child: Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: Color(0xffFDFFFC),
+                                            size: 15,
+                                          ),
+                                        ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    i == 0 ? "Count" : "Identify",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(
+                                        0xffFDFFFC,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -189,7 +206,6 @@ class HomePage extends StatelessWidget {
   }
 
   //create single recent card
-
   Widget _recentCard(RecentCardModel data) {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
@@ -254,7 +270,6 @@ class HomePage extends StatelessWidget {
   }
 
   //create single saved item details bar
-
   Widget _savedItemList(SavedItemModel data, BuildContext context) {
     return Column(
       children: [

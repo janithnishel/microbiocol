@@ -28,7 +28,7 @@ class ProfileData {
 }
 
 //this booolean value is change according to the tier
-bool isfreeTier = false;
+bool isfreeTier =false;
 //tracking the tier
 
 bool checkTire() {
