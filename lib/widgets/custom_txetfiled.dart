@@ -9,27 +9,27 @@ class CustomTextField extends StatelessWidget {
   final bool? isHasSuffixIcon;
   final double? suffixConstrainHeight;
   final int? maxLines;
-  final String? Function(String?)? validator;
-  final TextEditingController controller;
+  final TextEditingController? controller;
+  final FormFieldValidator<String>? validator; // Add this line
 
   const CustomTextField({
     super.key,
     required this.hintText,
-    this.isObscureText = false,
+    this.isObscureText,
     this.keyBoardType,
     this.suffixIcon,
-    this.isHasSuffixIcon = false,
+    this.isHasSuffixIcon,
     this.suffixConstrainHeight,
     this.maxLines = 1,
-    this.validator,
-    required this.controller,
+    this.controller,
+    this.validator, // Add this line
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      keyboardType: keyBoardType ?? TextInputType.text,
+      keyboardType: keyBoardType ?? TextInputType.visiblePassword,
       obscureText: isObscureText ?? false,
       maxLines: maxLines,
       style: const TextStyle(
@@ -37,7 +37,6 @@ class CustomTextField extends StatelessWidget {
         fontSize: 16,
         fontWeight: FontWeight.w300,
       ),
-      validator: validator,
       decoration: InputDecoration(
         suffixIcon: isHasSuffixIcon ?? false ? suffixIcon : null,
         suffixIconConstraints: BoxConstraints.tightFor(
@@ -72,6 +71,7 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
       ),
+      validator: validator, // Add this line
     );
   }
 }

@@ -43,7 +43,7 @@ class SubmitTicket extends StatelessWidget {
                             "Email",
                             "Subject",
                             "Issue Description",
-                          ], controllers: [], validators: const [], inputTypes: [],
+                          ],
                         ),
                         const SizedBox(
                           height: 15,
@@ -186,7 +186,7 @@ class SubmitTicket extends StatelessWidget {
                               "Email",
                               "Subject",
                               "Issue Description",
-                            ], controllers: const <TextEditingController>[], validators: [], inputTypes: [],
+                            ],
                           ),
                           const SizedBox(
                             height: 15,

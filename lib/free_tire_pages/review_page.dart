@@ -32,7 +32,7 @@ class Review extends StatelessWidget {
                   ),
                   CustomForm(
                     noOfField: 3,
-                    hintText: const ["Your Name", "Email", "Review"], controllers: const [], validators: [], inputTypes: [],
+                    hintText: const ["Your Name", "Email", "Review"],
                   ),
                   const SizedBox(
                     height: 15,

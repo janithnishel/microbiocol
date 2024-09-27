@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/data/recent_card_data.dart';
 import 'package:microbiocol/data/saved_item_data.dart';
+import 'package:microbiocol/free_tire_pages/camerascreen.dart';
 import 'package:microbiocol/models/recent_card_model.dart';
 import 'package:microbiocol/models/saved_item_model.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -93,60 +94,70 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    for (int i = 0; i < 2; i++)
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: i == 0
-                              ? const EdgeInsets.only(right: 8)
-                              : const EdgeInsets.only(left: 8),
-                          child: CustomButton(
-                            isHasWidget: true,
-                            isHasBorder: false,
-                            widget: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                i == 0
-                                    ? SvgPicture.asset(
-                                        "assets/images/abacus.svg",
-                                        fit: BoxFit.cover,
-                                        width: 16,
-                                        height: 16,
-                                        // ignore: deprecated_member_use
-                                        color: mwhiteColor,
-                                      )
-                                    : const Padding(
-                                        padding: EdgeInsets.only(top: 2),
-                                        child: Icon(
-                                          Icons.camera_alt_outlined,
-                                          color: Color(0xffFDFFFC),
-                                          size: 15,
-                                        ),
-                                      ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  i == 0 ? "Count" : "Identify",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(
-                                      0xffFDFFFC,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+              Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    for (int i = 0; i < 2; i++)
+      Expanded(
+        flex: 1,
+        child: Padding(
+          padding: i == 0
+              ? const EdgeInsets.only(right: 8)
+              : const EdgeInsets.only(left: 8),
+          child: GestureDetector(
+            onTap: () {
+              // Navigate to CameraUI page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CameraUI(), // Navigate to CameraUI
+                ),
+              );
+            },
+            child: CustomButton(
+              isHasWidget: true,
+              isHasBorder: false,
+              widget: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  i == 0
+                      ? SvgPicture.asset(
+                          "assets/images/abacus.svg",
+                          fit: BoxFit.cover,
+                          width: 16,
+                          height: 16,
+                          color: mwhiteColor,
+                        )
+                      : const Padding(
+                          padding: EdgeInsets.only(top: 2),
+                          child: Icon(
+                            Icons.camera_alt_outlined,
+                            color: Color(0xffFDFFFC),
+                            size: 15,
                           ),
                         ),
-                      )
-                  ],
-                ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    i == 0 ? "Count" : "Identify",
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Color(
+                        0xffFDFFFC,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      )
+  ],
+),
                 const SizedBox(
                   height: 20,
                 ),

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:microbiocol/data/db_data.dart';
@@ -17,21 +17,11 @@ class DB extends StatefulWidget {
 }
 
 class _DBState extends State<DB> {
-  // tracking the tier
+// tracking the tier
   bool isFreeTier = checkTire();
 
-  // tracking the button is clicked
+// tracking the buttton is clicked
   int _onTap = 99;
-
-  // Create a TextEditingController for search input
-  TextEditingController _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    // Dispose the controller when not in use
-    _searchController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +32,7 @@ class _DBState extends State<DB> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Column(
             children: [
-              // Remove the const keyword and use the controller
-              CustomTextField(
+              const CustomTextField(
                 hintText: "Search",
                 keyBoardType: TextInputType.text,
                 isHasSuffixIcon: true,
@@ -52,12 +41,11 @@ class _DBState extends State<DB> {
                   size: 20,
                 ),
                 suffixConstrainHeight: 20,
-                controller: _searchController, // Using controller here
               ),
               ListView.builder(
                 itemCount: DBData.dbDataList.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
                   final data = DBData.dbDataList[index];
@@ -150,7 +138,7 @@ class _DBState extends State<DB> {
                             onTap: () {
                               setState(
                                 () {
-                                  _onTap = index;
+                         _onTap = index;
                                 },
                               );
                             },

@@ -8,7 +8,6 @@ import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/custom_txetfiled.dart';
 import 'package:microbiocol/widgets/shared_login_method.dart';
 
-
 class Register extends StatefulWidget {
   const Register({super.key});
 

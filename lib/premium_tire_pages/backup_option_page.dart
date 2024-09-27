@@ -5,7 +5,7 @@ import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class BackupOption extends StatelessWidget {
-  const BackupOption({super.key});
+  BackupOption({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +64,10 @@ class BackupOption extends StatelessWidget {
               width: 16,
               height: 16,
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
                 color: mprimaryColor,

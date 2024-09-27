@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:microbiocol/data/premium_profile_data.dart';
 import 'package:microbiocol/data/profile_data.dart';
+import 'package:microbiocol/models/premium_profile_model.dart';
+import 'package:microbiocol/models/profile_model.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';

@@ -50,10 +50,10 @@ class LabSetting extends StatelessWidget {
                         },
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       height: 20,
                     ),
-                    const CustomButton(
+                    CustomButton(
                       isHasWidget: false,
                       isHasBorder: false,
                       title: "Add New Equipment",
