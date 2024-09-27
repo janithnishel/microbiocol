@@ -1,6 +1,5 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:microbiocol/desktop/desktop_login.dart';
+import 'package:microbiocol/desktop/desktop_loading_screen.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
               fontFamily: "Lato",
             ),
       ),
-      home: DesktopLogin(),
+      home: const DesktopLoadingScreen(),
     );
   }
 }
