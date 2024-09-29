@@ -1,4 +1,6 @@
 // apiservice/apiservice.dart
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:microbiocol/global.dart' as globals;
@@ -65,6 +67,36 @@ class ApiService {
     } catch (e) {
       print("Error: $e");
       return false;
+    }
+  }
+
+// Upload image and get prediction
+  static Future<Map<String, dynamic>?> predictImage(File imageFile) async {
+    final url = Uri.parse('$baseUrl/predict/predict/');
+    
+    try {
+      // Creating a multipart request
+      var request = http.MultipartRequest('POST', url)
+        ..files.add(await http.MultipartFile.fromPath('file', imageFile.path)); // Ensure 'file' is the correct field name
+
+      // Sending the request
+      var response = await request.send();
+      
+      // Check for a successful response
+      if (response.statusCode == 200) {
+        final responseData = await response.stream.bytesToString();
+        return jsonDecode(responseData); // Decode the JSON response
+      } else {
+        // Handle error responses
+        print("Error: ${response.statusCode} ${response.reasonPhrase}");
+        final responseBody = await response.stream.bytesToString();
+        print("Response Body: $responseBody");
+        return null;
+      }
+    } catch (e) {
+      // Catch and print any errors
+      print("Error: $e");
+      return null;
     }
   }
 }

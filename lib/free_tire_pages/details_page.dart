@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:microbiocol/data/profile_data.dart';
-import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/lock_box.dart';
+import 'package:microbiocol/utils/colors.dart';
 
 class DetailsPage extends StatelessWidget {
-  DetailsPage({super.key});
+  final Map<String, dynamic> data;
+  final String imagePath;
 
-  // create the  key research topic list
+  DetailsPage({required this.data, required this.imagePath});
 
-  final List<String> topics = [
-    "Lorem ipsum dolor sit amet",
-    "Consectetur adipiscing elit"
-  ];
-  //check whether the free tire or premium
   bool isFreeTire = checkTire();
+
   @override
   Widget build(BuildContext context) {
+    final predictedClass = data['predicted_class'] ?? 'No Class Available';
+    final confidence = (data['confidence'] * 100).toStringAsFixed(2) + '%';
+    final about = data['about'] ?? 'No description available';
+    final articles = data['articles'] as List<dynamic>? ?? [];
+    final topics = data['key_research_topics'] as List<dynamic>? ?? [];
+    final uses = data['uses'] ?? 'No uses available';
+    final illnessesCaused = data['illnesses_caused'] ?? 'No information available';
+
     return Scaffold(
       backgroundColor: mwhiteColor,
       body: SingleChildScrollView(
@@ -27,25 +33,18 @@ class DetailsPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: Column(
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      Icons.arrow_back_ios_sharp,
-                      size: 12,
-                      color: mprimaryColor,
+                    IconButton(
+                      icon: Icon(Icons.arrow_back_ios_sharp, size: 20, color: mprimaryColor),
+                      onPressed: () => Navigator.pop(context),
                     ),
-                    Icon(
-                      Icons.share_outlined,
-                      size: 20,
-                      color: mprimaryColor,
-                    )
+                    Icon(Icons.share_outlined, size: 20, color: mprimaryColor)
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -57,17 +56,15 @@ class DetailsPage extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 8, bottom: 1),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              "assets/images/basillus.png",
+                            child: Image.file(
+                              File(imagePath),
                               fit: BoxFit.cover,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
+                    const SizedBox(width: 20),
                     Expanded(
                       flex: 8,
                       child: SizedBox(
@@ -76,25 +73,25 @@ class DetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Staphylococcus",
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
-                                  color: mprimaryColor),
-                            ),
-                            const Text(
-                              "Basillus",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: mprimaryColor),
-                            ),
-                            const SizedBox(
-                              height: 7,
+                            Text(
+                              predictedClass,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                                color: mprimaryColor,
+                              ),
                             ),
                             Text(
-                              "Staphylococcus is a genus of Gram-positive bacteria in the family Staphylococcaceae from the order Bacillales. Under the microscope, they appear spherical, and form in grape-like clusters. Staphylococcus species are facultative anaerobic organisms.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore...Read More.",
+                              "Confidence: $confidence",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: mprimaryColor,
+                              ),
+                            ),
+                            const SizedBox(height: 7),
+                            Text(
+                              about,
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
@@ -110,9 +107,7 @@ class DetailsPage extends StatelessWidget {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -120,9 +115,7 @@ class DetailsPage extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: i == 0
-                              ? const EdgeInsets.only(right: 8)
-                              : const EdgeInsets.only(left: 8),
+                          padding: i == 0 ? const EdgeInsets.only(right: 8) : const EdgeInsets.only(left: 8),
                           child: CustomButton(
                             isHasWidget: true,
                             isHasBorder: false,
@@ -134,7 +127,6 @@ class DetailsPage extends StatelessWidget {
                                     ? SvgPicture.asset(
                                         "assets/images/abacus.svg",
                                         fit: BoxFit.cover,
-                                        // ignore: deprecated_member_use
                                         color: mwhiteColor,
                                         width: 16,
                                         height: 16,
@@ -147,17 +139,13 @@ class DetailsPage extends StatelessWidget {
                                           size: 15,
                                         ),
                                       ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
+                                const SizedBox(width: 10),
                                 Text(
                                   i == 0 ? "Count" : "Add to Folder",
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
-                                    color: Color(
-                                      0xffFDFFFC,
-                                    ),
+                                    color: Color(0xffFDFFFC),
                                   ),
                                 )
                               ],
@@ -167,9 +155,7 @@ class DetailsPage extends StatelessWidget {
                       ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 CustommBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -182,137 +168,60 @@ class DetailsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "About",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              "Staphylococcus is a genus of Gram-positive bacteria in the family Staphylococcaceae from the order Bacillales. Under the microscope, they appear spherical, and form in grape-like clusters. Staphylococcus species are facultative anaerobic organisms.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
                               "Articles",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: mprimaryColor),
                             ),
-                            const SizedBox(
-                              height: 13,
-                            ),
-                            for (int i = 0; i < 3; i++)
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5, top: 1),
-                                child: Text(
-                                  " ${i + 1}. Link ${i + 1}",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: mprimaryColor,
+                            const SizedBox(height: 13),
+                            ...articles.map((article) => Padding(
+                                  padding: const EdgeInsets.only(left: 5, top: 1),
+                                  child: Text(
+                                    article['name'],
+                                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: mprimaryColor),
                                   ),
-                                ),
-                              ),
-                            const SizedBox(
-                              height: 15,
-                            ),
+                                )),
+                            const SizedBox(height: 15),
                             const Text(
                               "Key Research Topics",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: mprimaryColor),
                             ),
-                            const SizedBox(
-                              height: 13,
-                            ),
-                            for (int i = 0; i < 2; i++)
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5, top: 1),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.circle,
-                                      size: 6,
-                                      color: mprimaryColor,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      topics[i],
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: mprimaryColor,
+                            const SizedBox(height: 13),
+                            ...topics.map((topic) => Padding(
+                                  padding: const EdgeInsets.only(left: 5, top: 1),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.circle, size: 6, color: mprimaryColor),
+                                      const SizedBox(width: 5),
+                                      Text(
+                                        topic,
+                                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: mprimaryColor),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            const SizedBox(
-                              height: 15,
-                            ),
+                                    ],
+                                  ),
+                                )),
+                            const SizedBox(height: 15),
                             const Text(
                               "Uses",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: mprimaryColor),
                             ),
-                            const SizedBox(
-                              height: 15,
+                            const SizedBox(height: 15),
+                            Text(
+                              uses,
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: mprimaryColor),
                             ),
-                            const Text(
-                              "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
+                            const SizedBox(height: 15),
                             const Text(
                               "Illnesses Caused",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: mprimaryColor),
                             ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
+                            const SizedBox(height: 15),
+                            Text(
+                              illnessesCaused,
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: mprimaryColor),
                             ),
                           ],
                         ),
-                        if (isFreeTire == true)
-                          lockBox(context, isFreeTire,
-                              MediaQuery.of(context).size.height)
+                        if (isFreeTire)
+                          lockBox(context, isFreeTire, MediaQuery.of(context).size.height),
                       ],
                     ),
                   ),

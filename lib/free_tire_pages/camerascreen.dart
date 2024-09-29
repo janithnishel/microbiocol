@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:image_picker/image_picker.dart'; // Import the image_picker package
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:microbiocol/api_services/apiservice.dart';
+import 'package:microbiocol/free_tire_pages/details_page.dart';
 
 class CameraUI extends StatefulWidget {
   @override
@@ -10,10 +13,9 @@ class CameraUI extends StatefulWidget {
 class _CameraUIState extends State<CameraUI> {
   late CameraController _cameraController;
   late Future<void> _initializeControllerFuture;
-  bool isSingleMode = true;
   List<CameraDescription>? cameras;
   int selectedCameraIndex = 0;
-  final ImagePicker _picker = ImagePicker(); // Initialize ImagePicker
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -44,7 +46,7 @@ class _CameraUIState extends State<CameraUI> {
 
     _initializeControllerFuture = _cameraController.initialize().then((_) {
       if (!mounted) return;
-      setState(() {}); // Refresh the UI once the camera is initialized
+      setState(() {}); 
     }).catchError((e) {
       print('Error initializing camera: $e');
     });
@@ -71,8 +73,7 @@ class _CameraUIState extends State<CameraUI> {
     try {
       await _initializeControllerFuture;
       final image = await _cameraController.takePicture();
-      // Handle captured image logic here
-      print('Image captured: ${image.path}');
+      _navigateToDetails(image.path);
     } catch (e) {
       print('Error capturing image: $e');
     }
@@ -82,13 +83,37 @@ class _CameraUIState extends State<CameraUI> {
     try {
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
-        print('Selected image path: ${pickedFile.path}');
-        // You can use the pickedFile for further processing
+        _navigateToDetails(pickedFile.path);
       } else {
         print('No image selected');
       }
     } catch (e) {
       print('Error opening gallery: $e');
+    }
+  }
+
+  void _navigateToDetails(String imagePath) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(child: CircularProgressIndicator()),
+    );
+
+    final result = await ApiService.predictImage(File(imagePath));
+
+    Navigator.pop(context); // Close the progress indicator
+
+    if (result != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailsPage(data: result, imagePath: imagePath),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to get prediction')),
+      );
     }
   }
 
@@ -130,7 +155,10 @@ class _CameraUIState extends State<CameraUI> {
                       child: CameraPreview(_cameraController),
                     );
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Camera error: ${snapshot.error}', style: TextStyle(color: Colors.red)));
+                    return Center(
+                      child: Text('Camera error: ${snapshot.error}',
+                          style: TextStyle(color: Colors.red)),
+                    );
                   } else {
                     return Center(child: CircularProgressIndicator());
                   }
@@ -142,74 +170,21 @@ class _CameraUIState extends State<CameraUI> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isSingleMode = false;
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: !isSingleMode ? Colors.blue : Colors.transparent,
-                  ),
-                  child: Text(
-                    'Stack',
-                    style: TextStyle(
-                      color: !isSingleMode ? Colors.white : Colors.white70,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+              IconButton(
+                icon: Icon(Icons.photo, color: Colors.white70),
+                onPressed: _openGallery,
               ),
-              SizedBox(width: 10),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isSingleMode = true;
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: isSingleMode ? Colors.blue : Colors.transparent,
-                  ),
-                  child: Text(
-                    'Single',
-                    style: TextStyle(
-                      color: isSingleMode ? Colors.white : Colors.white70,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+              FloatingActionButton(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.camera_alt, color: Colors.black),
+                onPressed: _captureImage,
+              ),
+              IconButton(
+                icon: Icon(Icons.switch_camera, color: Colors.white70),
+                onPressed: _switchCamera,
               ),
             ],
           ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.photo, color: Colors.white70),
-                  onPressed: _openGallery, // Open gallery when button is pressed
-                ),
-                FloatingActionButton(
-                  backgroundColor: Colors.white,
-                  child: Icon(Icons.camera_alt, color: Colors.black),
-                  onPressed: _captureImage,
-                ),
-                IconButton(
-                  icon: Icon(Icons.switch_camera, color: Colors.white70),
-                  onPressed: _switchCamera,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20),
         ],
       ),
     );
