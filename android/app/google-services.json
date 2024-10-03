@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "292763435916",
+    "project_id": "food-4df16",
+    "storage_bucket": "food-4df16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292763435916:android:eef8276a09fa4459668ca9",
+        "android_client_info": {
+          "package_name": "com.example.microbiocol"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdveec6TbXaCZhOyd1MahNKZw7OJSBK7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:292763435916:android:fcd40fc72551bd78668ca9",
+        "android_client_info": {
+          "package_name": "com.kodeco.plantreco"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdveec6TbXaCZhOyd1MahNKZw7OJSBK7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

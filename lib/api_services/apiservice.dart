@@ -99,4 +99,28 @@ class ApiService {
       return null;
     }
   }
+
+  static Future<bool> sendPredictionDetails(Map<String, dynamic> predictionData) async {
+  final url = Uri.parse('$baseUrl/details/details/predictions/');
+  
+  try {
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(predictionData),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print("Error sending prediction: ${response.body}");
+      return false;
+    }
+  } catch (e) {
+    print("Error: $e");
+    return false;
+  }
+}
 }

@@ -24,7 +24,7 @@ environment:
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
+# dependencies can be manually updated by changin g the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
@@ -39,7 +39,9 @@ dependencies:
   flutter_svg: ^2.0.10+1
   camera: ^0.10.4+4
   image_picker: ^0.8.7+4
-  
+  firebase_core: ^2.24.2
+  firebase_storage: ^11.6.0
+  firebase_auth: ^4.16.0
 
   
 
