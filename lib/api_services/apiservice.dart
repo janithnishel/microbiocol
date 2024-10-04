@@ -100,7 +100,7 @@ class ApiService {
     }
   }
 
-  static Future<bool> sendPredictionDetails(Map<String, dynamic> predictionData) async {
+static Future<bool> sendPredictionDetails(Map<String, dynamic> predictionData) async {
   final url = Uri.parse('$baseUrl/details/details/predictions/');
   
   try {

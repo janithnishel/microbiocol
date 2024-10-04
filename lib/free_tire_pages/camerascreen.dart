@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:microbiocol/api_services/apiservice.dart';
 import 'package:microbiocol/free_tire_pages/details_page.dart';
 import 'package:microbiocol/global.dart' as globals;
@@ -31,9 +30,7 @@ class _CameraUIState extends State<CameraUI> {
       if (cameras != null && cameras!.isNotEmpty) {
         _startCamera(selectedCameraIndex);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No cameras available')),
-        );
+        _showMessage('No cameras available');
       }
     } catch (e) {
       print('Error initializing camera: $e');
@@ -60,7 +57,6 @@ class _CameraUIState extends State<CameraUI> {
 
   @override
   void dispose() {
-    // Ensure the camera controller is disposed properly
     if (_cameraController != null) {
       _cameraController.dispose();
     }
@@ -70,16 +66,14 @@ class _CameraUIState extends State<CameraUI> {
   void _switchCamera() async {
     if (cameras != null && cameras!.length > 1) {
       try {
-        await _cameraController.dispose(); // Dispose of the current camera before switching
+        await _cameraController.dispose();
         selectedCameraIndex = (selectedCameraIndex + 1) % cameras!.length;
         _startCamera(selectedCameraIndex);
       } catch (e) {
         print('Error switching camera: $e');
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No other camera available')),
-      );
+      _showMessage('No other camera available');
     }
   }
 
@@ -87,7 +81,7 @@ class _CameraUIState extends State<CameraUI> {
     try {
       await _initializeControllerFuture;
       final image = await _cameraController.takePicture();
-      _getPredictionAndUploadImage(image.path);
+      _getPredictionAndSendDetails(image.path);
     } catch (e) {
       print('Error capturing image: $e');
     }
@@ -97,7 +91,7 @@ class _CameraUIState extends State<CameraUI> {
     try {
       final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
-        _getPredictionAndUploadImage(pickedFile.path);
+        _getPredictionAndSendDetails(pickedFile.path);
       } else {
         print('No image selected');
       }
@@ -106,89 +100,64 @@ class _CameraUIState extends State<CameraUI> {
     }
   }
 
-  Future<String> _uploadImageToFirebase(File imageFile) async {
-    try {
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference firebaseStorageRef = FirebaseStorage.instance
-          .ref()
-          .child('uploads/$fileName.jpg');
-
-      UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
-
-      // Monitor the upload progress
-      uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) {
-        print('Task state: ${snapshot.state}');
-        print('Progress: ${(snapshot.bytesTransferred / snapshot.totalBytes) * 100} %');
-      });
-
-      // Wait for the upload to complete
-      TaskSnapshot taskSnapshot = await uploadTask;
-
-      // Get the download URL of the uploaded file
-      String downloadURL = await taskSnapshot.ref.getDownloadURL();
-      print('Upload successful! Download URL: $downloadURL');
-      return downloadURL;
-    } catch (e) {
-      print('Error uploading image to Firebase: $e');
-      return '';
-    }
-  }
-
-  void _getPredictionAndUploadImage(String imagePath) async {
+  void _getPredictionAndSendDetails(String imagePath) async {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator()),
+      builder: (context) => const Center(child: CircularProgressIndicator()),
     );
 
-    // Step 1: Call the prediction API first (without uploading the image yet)
+    // Step 1: Call the prediction API first
     final predictionResult = await ApiService.predictImage(File(imagePath));
 
     if (predictionResult != null) {
       print('Prediction received: $predictionResult');
 
-      // Step 2: Upload the image to Firebase Storage
-      String imageUrl = await _uploadImageToFirebase(File(imagePath));
+      // Step 2: Prepare the request body as per the expected structure
 
-      if (imageUrl.isNotEmpty) {
-        print('Image uploaded successfully. URL: $imageUrl');
+      // Convert the list of key research topics into a dictionary with descriptions
+      Map<String, String> keyResearchTopics = {
+        for (var topic in predictionResult['key_research_topics'])
+          topic: "Description of $topic"
+      };
 
-        // Step 3: Add user_id and image_url to the prediction result
-        predictionResult['user_id'] = globals.userId ?? 0; // Fallback to 0 if userId is null
-        predictionResult['image_url'] = imageUrl; // Attach the Firebase image URL
+      // Create the request body to send
+      final Map<String, dynamic> requestBody = {
+        "user_id": globals.userId ?? 0,
+        "predicted_class": predictionResult['predicted_class'],
+        "confidence": predictionResult['confidence'],
+        "image_url": 'https://example.com/dummy_image.jpg', // Replace with actual image URL
+        "about": predictionResult['about'],
+        "key_research_topics": keyResearchTopics, // Dictionary of research topics
+        "uses": predictionResult['uses'],
+        "illnesses_caused": predictionResult['illnesses_caused'],
+        "articles": predictionResult['articles'] ?? []
+      };
 
-        // Step 4: Send the updated data (with the image URL) back to the backend
-        bool predictionSaved = await ApiService.sendPredictionDetails(predictionResult);
+      // Step 3: Send the updated data back to the backend
+      bool predictionSaved = await ApiService.sendPredictionDetails(requestBody);
 
-        Navigator.pop(context);  // Close the progress indicator
+      Navigator.pop(context);  // Close the progress indicator
 
-        if (predictionSaved) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Prediction saved successfully!')),
-          );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailsPage(data: predictionResult, imagePath: imagePath),
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to save prediction')),
-          );
-        }
-      } else {
-        Navigator.pop(context);  // Close the progress indicator
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to upload image')),
+      if (predictionSaved) {
+        _showMessage('Prediction saved successfully!');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsPage(data: predictionResult, imagePath: imagePath),
+          ),
         );
+      } else {
+        _showMessage('Failed to save prediction');
       }
     } else {
       Navigator.pop(context);  // Close the progress indicator
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to get prediction')),
-      );
+      _showMessage('Failed to get prediction');
     }
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -199,7 +168,7 @@ class _CameraUIState extends State<CameraUI> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -207,8 +176,8 @@ class _CameraUIState extends State<CameraUI> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 10),
-          Center(
+          const SizedBox(height: 10),
+          const Center(
             child: Text(
               'Keep the subjects inside the area',
               style: TextStyle(
@@ -217,7 +186,7 @@ class _CameraUIState extends State<CameraUI> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Expanded(
             child: Center(
               child: FutureBuilder<void>(
@@ -231,30 +200,30 @@ class _CameraUIState extends State<CameraUI> {
                   } else if (snapshot.hasError) {
                     return Center(
                       child: Text('Camera error: ${snapshot.error}',
-                          style: TextStyle(color: Colors.red)),
+                          style: const TextStyle(color: Colors.red)),
                     );
                   } else {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                 },
               ),
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Icon(Icons.photo, color: Colors.white70),
+                icon: const Icon(Icons.photo, color: Colors.white70),
                 onPressed: _openGallery,
               ),
               FloatingActionButton(
                 backgroundColor: Colors.white,
-                child: Icon(Icons.camera_alt, color: Colors.black),
+                child: const Icon(Icons.camera_alt, color: Colors.black),
                 onPressed: _captureImage,
               ),
               IconButton(
-                icon: Icon(Icons.switch_camera, color: Colors.white70),
+                icon: const Icon(Icons.switch_camera, color: Colors.white70),
                 onPressed: _switchCamera,
               ),
             ],

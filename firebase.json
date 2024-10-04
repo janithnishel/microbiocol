@@ -1,1 +1,44 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"food-4df16","appId":"1:292763435916:android:eef8276a09fa4459668ca9","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"food-4df16","appId":"1:292763435916:ios:76b9c0b9302c0691668ca9","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"food-4df16","appId":"1:292763435916:ios:76b9c0b9302c0691668ca9","uploadDebugSymbols":false,"fileOutput":"macos/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"food-4df16","configurations":{"android":"1:292763435916:android:eef8276a09fa4459668ca9","ios":"1:292763435916:ios:76b9c0b9302c0691668ca9","macos":"1:292763435916:ios:76b9c0b9302c0691668ca9","web":"1:292763435916:web:fcac578ae61aac90668ca9","windows":"1:292763435916:web:fc78273811f68165668ca9"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "food-4df16",
+          "appId": "1:292763435916:android:eef8276a09fa4459668ca9",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "food-4df16",
+          "appId": "1:292763435916:ios:76b9c0b9302c0691668ca9",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "food-4df16",
+          "appId": "1:292763435916:ios:76b9c0b9302c0691668ca9",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "food-4df16",
+          "configurations": {
+            "android": "1:292763435916:android:eef8276a09fa4459668ca9",
+            "ios": "1:292763435916:ios:76b9c0b9302c0691668ca9",
+            "macos": "1:292763435916:ios:76b9c0b9302c0691668ca9",
+            "web": "1:292763435916:web:fcac578ae61aac90668ca9",
+            "windows": "1:292763435916:web:fc78273811f68165668ca9"
+          }
+        }
+      }
+    }
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}
