@@ -123,4 +123,23 @@ static Future<bool> sendPredictionDetails(Map<String, dynamic> predictionData) a
     return false;
   }
 }
+// Fetch recent predictions for a user by user_id
+ static Future<List<Map<String, dynamic>>?> fetchRecentPredictions(int userId) async {
+  final url = Uri.parse('$baseUrl/details/predictions/userrecent/$userId?limit=5'); // Ensure the limit is passed
+  
+  try {
+    final response = await http.get(url);
+    
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((item) => item as Map<String, dynamic>).toList();
+    } else {
+      print("Error: ${response.body}");
+      return null;
+    }
+  } catch (e) {
+    print("Error: $e");
+    return null;
+  }
+}
 }

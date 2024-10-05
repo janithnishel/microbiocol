@@ -126,7 +126,7 @@ class _CameraUIState extends State<CameraUI> {
         "user_id": globals.userId ?? 0,
         "predicted_class": predictionResult['predicted_class'],
         "confidence": predictionResult['confidence'],
-        "image_url": 'https://example.com/dummy_image.jpg', // Replace with actual image URL
+        "image_url": 'https://firebasestorage.googleapis.com/v0/b/microbio-c5c95.appspot.com/o/20240805_144043.jpg?alt=media&token=9c39bd4a-6273-4542-9f00-6b438bd60f2f', // Replace with actual image URL
         "about": predictionResult['about'],
         "key_research_topics": keyResearchTopics, // Dictionary of research topics
         "uses": predictionResult['uses'],

@@ -1,29 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:microbiocol/data/profile_data.dart';
-import 'package:microbiocol/data/recent_card_data.dart';
-import 'package:microbiocol/data/saved_item_data.dart';
+import 'package:microbiocol/api_services/apiservice.dart';
 import 'package:microbiocol/free_tire_pages/camerascreen.dart';
-import 'package:microbiocol/models/recent_card_model.dart';
-import 'package:microbiocol/models/saved_item_model.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/lock_box.dart';
 import 'package:microbiocol/global.dart' as globals; // Import globals
 
-class HomePage extends StatelessWidget {
+
+class HomePage extends StatefulWidget {
   HomePage({super.key});
 
-  // fetching data from recentcard class
-  final recentData = RecentCardData().recentDataList;
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-  // fetching data from savedItem class
-  final savedData = SavedItemData().savedDataList;
+class _HomePageState extends State<HomePage> {
+  List<Map<String, dynamic>> _recentPredictions = [];
+  bool _isLoading = false;
 
-  // check whether the free tier or premium
-  final bool isFreeTire = checkTire();
+  @override
+  void initState() {
+    super.initState();
+    _fetchRecentPredictions(); // Fetch recent predictions when the page loads
+  }
+
+  // Fetch recent predictions from the API
+  Future<void> _fetchRecentPredictions() async {
+    int userId = globals.userId ?? 1; // Get the userId from globals (or use a default one)
+    final recentPredictions = await ApiService.fetchRecentPredictions(userId);
+
+    if (recentPredictions != null) {
+      setState(() {
+        _recentPredictions = recentPredictions;
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,23 +86,27 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
+
+                // Display the recent predictions fetched from API
                 SizedBox(
                   height: 150,
-                  child: ListView.builder(
-                    itemCount: recentData.length,
-                    shrinkWrap: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      RecentCardModel data = recentData[index];
-
-                      return _recentCard(data);
-                    },
-                  ),
+                  child: _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _recentPredictions.isEmpty
+                          ? const Text("No recent predictions found.")
+                          : ListView.builder(
+                              itemCount: _recentPredictions.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                var prediction = _recentPredictions[index];
+                                return _recentCard(prediction);
+                              },
+                            ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
+
                 const Text(
                   "Quick Actions",
                   style: TextStyle(
@@ -94,70 +117,70 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-              Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    for (int i = 0; i < 2; i++)
-      Expanded(
-        flex: 1,
-        child: Padding(
-          padding: i == 0
-              ? const EdgeInsets.only(right: 8)
-              : const EdgeInsets.only(left: 8),
-          child: GestureDetector(
-            onTap: () {
-              // Navigate to CameraUI page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CameraUI(), // Navigate to CameraUI
-                ),
-              );
-            },
-            child: CustomButton(
-              isHasWidget: true,
-              isHasBorder: false,
-              widget: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  i == 0
-                      ? SvgPicture.asset(
-                          "assets/images/abacus.svg",
-                          fit: BoxFit.cover,
-                          width: 16,
-                          height: 16,
-                          color: mwhiteColor,
-                        )
-                      : const Padding(
-                          padding: EdgeInsets.only(top: 2),
-                          child: Icon(
-                            Icons.camera_alt_outlined,
-                            color: Color(0xffFDFFFC),
-                            size: 15,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (int i = 0; i < 2; i++)
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                          padding: i == 0
+                              ? const EdgeInsets.only(right: 8)
+                              : const EdgeInsets.only(left: 8),
+                          child: GestureDetector(
+                            onTap: () {
+                              // Navigate to CameraUI page
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CameraUI(),
+                                ),
+                              );
+                            },
+                            child: CustomButton(
+                              isHasWidget: true,
+                              isHasBorder: false,
+                              widget: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  i == 0
+                                      ? SvgPicture.asset(
+                                          "assets/images/abacus.svg",
+                                          fit: BoxFit.cover,
+                                          width: 16,
+                                          height: 16,
+                                          color: mwhiteColor,
+                                        )
+                                      : const Padding(
+                                          padding: EdgeInsets.only(top: 2),
+                                          child: Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: Color(0xffFDFFFC),
+                                            size: 15,
+                                          ),
+                                        ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    i == 0 ? "Count" : "Identify",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(
+                                        0xffFDFFFC,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    i == 0 ? "Count" : "Identify",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Color(
-                        0xffFDFFFC,
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      )
-  ],
-),
+                  ],
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -179,17 +202,14 @@ class HomePage extends StatelessWidget {
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: savedData.length,
+                        itemCount: 3, // Static or dynamic number of saved items
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
-                          SavedItemModel data = savedData[index];
-
-                          return _savedItemList(data, context);
+                          return _savedItemList(index, context); // Example saved items
                         },
                       ),
-                      if (isFreeTire == true)
-                        lockBox(context, isFreeTire,
-                            MediaQuery.of(context).size.height)
+                      if (true) // Change 'true' with actual condition to lock
+                        lockBox(context, true, MediaQuery.of(context).size.height)
                     ],
                   ),
                 )
@@ -201,8 +221,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  //create single recent card
-  Widget _recentCard(RecentCardModel data) {
+  // Create single recent card with actual data from API
+  Widget _recentCard(Map<String, dynamic> data) {
     return Padding(
       padding: const EdgeInsets.only(right: 20),
       child: CustommBox(
@@ -220,9 +240,12 @@ class HomePage extends StatelessWidget {
                   Positioned.fill(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      child: Image.asset(
-                        data.imageUrl,
+                      child: Image.network(
+                        data['image_url'] ?? '',  // Display image from URL
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Icon(Icons.error); // Show error icon if image fails to load
+                        },
                       ),
                     ),
                   ),
@@ -245,7 +268,7 @@ class HomePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            data.microAnimalName,
+                            data['predicted_class'] ?? 'Unknown',  // Display predicted class
                             style: const TextStyle(
                               fontSize: 8,
                               fontWeight: FontWeight.w400,
@@ -265,64 +288,61 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  //create single saved item details bar
-  Widget _savedItemList(SavedItemModel data, BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustommBox(
-                isHasBoxShadow: false,
-                isHasBorder: false,
-                width: 64,
-                height: 64,
-                borderRadius: 42,
-                color: mprimaryColor.withOpacity(0.1),
-                widget: const Center(
-                  child: Icon(
-                    FontAwesomeIcons.folder,
+  // Create a saved item list (replace with actual saved items logic)
+  Widget _savedItemList(int index, BuildContext context) {
+    // Replace this widget with actual saved items logic
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustommBox(
+            isHasBoxShadow: false,
+            isHasBorder: false,
+            width: 64,
+            height: 64,
+            borderRadius: 42,
+            color: mprimaryColor.withOpacity(0.1),
+            widget: const Center(
+              child: Icon(
+                FontAwesomeIcons.folder,
+                color: mprimaryColor,
+                size: 40,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  "Saved Item",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w400,
                     color: mprimaryColor,
-                    size: 40,
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      data.name,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w400,
-                        color: mprimaryColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    Text(
-                      data.date,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: mprimaryColor.withOpacity(0.5),
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  height: 2,
                 ),
-              )
-            ],
-          ),
-        ),
-      ],
+                Text(
+                  "Date",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: mprimaryColor,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
