@@ -142,4 +142,39 @@ static Future<bool> sendPredictionDetails(Map<String, dynamic> predictionData) a
     return null;
   }
 }
+
+  // Fetch user predictions
+  static Future<List<Map<String, dynamic>>?> fetchUserPredictions(int userId) async {
+    final url = Uri.parse('$baseUrl/details/predictions/user/$userId');
+
+    try {
+      // Make HTTP GET request
+      final response = await http.get(url);
+
+      // Check if the request was successful
+      if (response.statusCode == 200) {
+        // Decode the response body to a List<dynamic>
+        final List<dynamic> data = jsonDecode(response.body);
+
+        // Ensure the response data is a list of maps
+        // Cast each item in the list to Map<String, dynamic>
+        return data.map((item) {
+          if (item is Map<String, dynamic>) {
+            return item;
+          } else {
+            print("Warning: Unexpected data format");
+            return <String, dynamic>{};  // Return an empty map if the format is unexpected
+          }
+        }).toList();
+      } else {
+        print("Error fetching user predictions: ${response.statusCode} ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
+
 }
