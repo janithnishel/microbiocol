@@ -10,9 +10,14 @@ import 'package:microbiocol/widgets/title_bar.dart';
 class Review extends StatelessWidget {
   Review({super.key});
 
-  //tracking tier
-
+  // tracking tier
   bool isFreeTier = checkTire();
+
+  // Add controllers for the text fields
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController reviewController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +38,11 @@ class Review extends StatelessWidget {
                   CustomForm(
                     noOfField: 3,
                     hintText: const ["Your Name", "Email", "Review"],
+                    controllers: [
+                      nameController, // Ensure these match the fields
+                      emailController,
+                      reviewController,
+                    ],
                   ),
                   const SizedBox(
                     height: 15,

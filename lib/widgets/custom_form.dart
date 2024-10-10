@@ -3,9 +3,15 @@ import 'package:microbiocol/widgets/custom_txetfiled.dart';
 
 class CustomForm extends StatelessWidget {
   final int noOfField;
+  final List<String> hintText;
+  final List<TextEditingController> controllers; // Added final here to store the controllers
 
-  List<String> hintText = [];
-  CustomForm({super.key, required this.noOfField, required this.hintText});
+  CustomForm({
+    super.key,
+    required this.noOfField,
+    required this.hintText,
+    required this.controllers,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +21,9 @@ class CustomForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 15),
             child: CustomTextField(
+              controller: controllers[i], // Link controller to the text field
               hintText: hintText[i],
-              maxLines: noOfField - 1 == i ? 5 : null,
+              maxLines: noOfField - 1 == i ? 5 : null, // Allow multi-line for the last field
             ),
           ),
       ],

@@ -1,314 +1,217 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:microbiocol/data/profile_data.dart';
-import 'package:microbiocol/free_tire_pages/feature_page.dart';
-import 'package:microbiocol/free_tire_pages/review_page.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:microbiocol/api_services/apiservice.dart';
 import 'package:microbiocol/utils/colors.dart';
-import 'package:microbiocol/utils/responsive.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/custom_form.dart';
-import 'package:microbiocol/widgets/title_bar.dart';
+import 'package:microbiocol/global.dart' as globals;
 
-class SubmitTicket extends StatelessWidget {
+class SubmitTicket extends StatefulWidget {
   SubmitTicket({super.key});
 
-  //check the tier
-  bool isFreeTier = checkTire();
+  @override
+  _SubmitTicketState createState() => _SubmitTicketState();
+}
+
+class _SubmitTicketState extends State<SubmitTicket> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController subjectController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  File? selectedFile;
+  bool isLoading = false;
+
+  // Function to pick image or file from gallery
+  Future<void> pickFile() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        selectedFile = File(pickedFile.path);
+      });
+    }
+  }
+
+  // Upload file to Firebase Storage and get URL
+  Future<String?> uploadFile(File file) async {
+    try {
+      final storageRef = FirebaseStorage.instance.ref().child('tickets/${file.path.split('/').last}');
+      await storageRef.putFile(file);
+      return await storageRef.getDownloadURL();
+    } catch (e) {
+      print('Error uploading file: $e');
+      return null;
+    }
+  }
+
+Future<void> submitTicket() async {
+  // Simple form validation
+  if (nameController.text.isEmpty ||
+      emailController.text.isEmpty ||
+      subjectController.text.isEmpty ||
+      descriptionController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please fill all required fields.')),
+    );
+    return;
+  }
+
+  setState(() {
+    isLoading = true;
+  });
+
+  int? userId = globals.userId;
+  String? attachmentUrl;
+
+  // Upload the file to Firebase Storage if one is selected
+  try {
+    if (selectedFile != null) {
+      attachmentUrl = await uploadFile(selectedFile!);
+      if (attachmentUrl == null) {
+        throw Exception('Failed to upload the attachment.');
+      }
+    } else {
+      // Use a dummy URL if no file is selected
+      attachmentUrl = 'https://example.com/dummy-file-url';
+    }
+
+    // Call API to submit the ticket
+    bool result = await ApiService.submitTicket(
+      userId: userId ?? 0,
+      name: nameController.text,
+      email: emailController.text,
+      subject: subjectController.text,
+      description: descriptionController.text,
+      attachmentUrl: attachmentUrl,
+    );
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (result) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ticket submitted successfully!'), backgroundColor: Colors.green),
+      );
+    } else {
+      throw Exception('API returned false.');
+    }
+  } catch (error) {
+    setState(() {
+      isLoading = false;
+    });
+
+    // Log the detailed error to help identify the issue
+    print('Error submitting ticket: $error');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to submit the ticket: $error'), backgroundColor: Colors.red),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Submit a Ticket'),
+      ),
       backgroundColor: mwhiteColor,
-      body: Responsive.smailHeight(context) == false
-          ? SafeArea(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
                   children: [
-                    Column(
+                    CustomForm(
+                      noOfField: 4,
+                      controllers: [
+                        nameController,
+                        emailController,
+                        subjectController,
+                        descriptionController,
+                      ],
+                      hintText: const [
+                        "Your Name",
+                        "Email",
+                        "Subject",
+                        "Issue Description",
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        titleBar(context,
-                            title: isFreeTier
-                                ? "Submit a Ticket"
-                                : "Priority Ticket"),
-                        const SizedBox(
-                          height: 10,
+                        const Text(
+                          "Attachments \n(optional)",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                            color: mprimaryColor,
+                          ),
                         ),
-                        CustomForm(
-                          noOfField: 4,
-                          hintText: const [
-                            "Your Name",
-                            "Email",
-                            "Subject",
-                            "Issue Description",
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        const Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Attachments \n(optional)",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w300,
-                                color: mprimaryColor,
-                              ),
-                            ),
-                            CustommBox(
-                              isHasBoxShadow: false,
-                              width: 184,
-                              height: 36,
-                              borderRadius: 8,
-                              color: mwhiteColor,
-                              widget: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.file_upload_outlined,
-                                    color: mprimaryColor,
-                                    size: 20,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Choose from gallery",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: mprimaryColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              isHasBorder: true,
-                            ),
-                            CustommBox(
-                              isHasBoxShadow: false,
-                              width: 32,
-                              height: 36,
-                              borderRadius: 8,
-                              color: mwhiteColor,
-                              widget: Center(
-                                child: Icon(
-                                  Icons.cloud_upload_outlined,
+                        CustommBox(
+                          isHasBoxShadow: false,
+                          width: 184,
+                          height: 36,
+                          borderRadius: 8,
+                          color: mwhiteColor,
+                          widget: GestureDetector(
+                            onTap: pickFile,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.file_upload_outlined,
                                   color: mprimaryColor,
-                                  size: 15,
+                                  size: 20,
                                 ),
-                              ),
-                              isHasBorder: true,
+                                SizedBox(width: 5),
+                                Text(
+                                  "Choose from gallery",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: mprimaryColor,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        const CustomButton(
-                          isHasWidget: false,
-                          isHasBorder: false,
-                          title: "Raise Ticket",
+                          ),
+                          isHasBorder: true,
                         ),
                       ],
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Review(),
-                              ),
-                            );
-                          },
-                          child: const CustomButton(
-                            isHasWidget: false,
-                            isHasBorder: true,
-                            title: "Give a Review",
-                            color: mwhiteColor,
-                            textColor: mprimaryColor,
-                          ),
+                    if (selectedFile != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          "Selected File: ${selectedFile!.path.split('/').last}",
+                          style: const TextStyle(fontSize: 14, color: mprimaryColor),
                         ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Feature(),
-                              ),
-                            );
-                          },
-                          child: const CustomButton(
-                            isHasWidget: false,
-                            isHasBorder: true,
-                            title: "Suggest a Feature",
-                            color: mwhiteColor,
-                            textColor: mprimaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : SingleChildScrollView(
-              child: SafeArea(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          titleBar(context,
-                              title: isFreeTier
-                                  ? "Submit a Ticket"
-                                  : "Priority Ticket"),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CustomForm(
-                            noOfField: 4,
-                            hintText: const [
-                              "Your Name",
-                              "Email",
-                              "Subject",
-                              "Issue Description",
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          const Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Attachments \n(optional)",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w300,
-                                  color: mprimaryColor,
-                                ),
-                              ),
-                              CustommBox(
-                                isHasBoxShadow: false,
-                                width: 184,
-                                height: 36,
-                                borderRadius: 8,
-                                color: mwhiteColor,
-                                widget: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.file_upload_outlined,
-                                      color: mprimaryColor,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "Choose from gallery",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                        color: mprimaryColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                isHasBorder: true,
-                              ),
-                              CustommBox(
-                                isHasBoxShadow: false,
-                                width: 32,
-                                height: 36,
-                                borderRadius: 8,
-                                color: mwhiteColor,
-                                widget: Center(
-                                  child: Icon(
-                                    Icons.cloud_upload_outlined,
-                                    color: mprimaryColor,
-                                    size: 15,
-                                  ),
-                                ),
-                                isHasBorder: true,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          const CustomButton(
+                      ),
+                    const SizedBox(height: 30),
+                    isLoading
+                        ? const CircularProgressIndicator()
+                        : CustomButton(
                             isHasWidget: false,
                             isHasBorder: false,
                             title: "Raise Ticket",
+                            onTap: submitTicket,
                           ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Review(),
-                                ),
-                              );
-                            },
-                            child: const CustomButton(
-                              isHasWidget: false,
-                              isHasBorder: true,
-                              title: "Give a Review",
-                              color: mwhiteColor,
-                              textColor: mprimaryColor,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Feature(),
-                                ),
-                              );
-                            },
-                            child: const CustomButton(
-                              isHasWidget: false,
-                              isHasBorder: true,
-                              title: "Suggest a Feature",
-                              color: mwhiteColor,
-                              textColor: mprimaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-              ),
+              ],
             ),
+          ),
+        ),
+      ),
     );
   }
 }

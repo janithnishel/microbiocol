@@ -33,7 +33,7 @@ class Feature extends StatelessWidget {
                   ),
                   CustomForm(
                     noOfField: 3,
-                    hintText: const ["Your Name", "Email", "Feature"],
+                    hintText: const ["Your Name", "Email", "Feature"], controllers: [],
                   ),
                   const SizedBox(
                     height: 30,

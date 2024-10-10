@@ -176,5 +176,48 @@ static Future<bool> sendPredictionDetails(Map<String, dynamic> predictionData) a
     }
   }
 
+static Future<bool> submitTicket({
+  required int userId,
+  required String name,
+  required String email,
+  required String subject,
+  required String description,
+  String? attachmentUrl, // This will be the file URL if the file is uploaded
+}) async {
+  try {
+    // Replace 'YOUR_API_ENDPOINT' with the actual endpoint for your ticket submission
+    final Uri url = Uri.parse('http://10.0.2.2:8000/ticket/tickets/');
 
+    // Make the POST request to the API
+    final response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer ${globals.accessToken}', // Ensure the token is passed
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'user_id': userId, // Changed from 'userId' to 'user_id'
+        'name': name,
+        'email': email,
+        'subject': subject,
+        'description': description,
+        'attachment': attachmentUrl ?? '', // Pass the URL or empty string if no attachment
+      }),
+    );
+
+    // Check the response status code
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true; // Success
+    } else {
+      // Log the error response body for debugging
+      print('Failed to submit ticket: ${response.body}');
+      return false;
+    }
+  } catch (e) {
+    // Catch any errors and log them
+    print('Error submitting ticket: $e');
+    return false;
+  }
+}
+ 
 }

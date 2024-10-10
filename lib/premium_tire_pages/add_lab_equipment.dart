@@ -31,7 +31,7 @@ class AddLabEquipment extends StatelessWidget {
                       "Equipment Type",
                       "Count",
                       "Equipment Description"
-                    ],
+                    ], controllers: [],
                   ),
                   const SizedBox(
                     height: 30,

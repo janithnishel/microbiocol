@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:microbiocol/free_tire_pages/analyze_page.dart';
 import 'package:microbiocol/free_tire_pages/details_page.dart';
 import 'package:microbiocol/free_tire_pages/feature_page.dart';
+import 'package:microbiocol/free_tire_pages/review_page.dart';
+import 'package:microbiocol/free_tire_pages/submit_ticket.dart';
 import 'package:microbiocol/free_tire_pages/unlock_premium.dart';
 import 'package:microbiocol/login_register_pages/splash_screen.dart';
 
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
               fontFamily: "Lato",
             ),
       ),
-      home: const SplashScreen(),
+      home:  Review(),
+          // home: const SplashScreen(),
     );
   }
 }

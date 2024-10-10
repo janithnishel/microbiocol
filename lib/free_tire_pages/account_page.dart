@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:microbiocol/data/premium_profile_data.dart';
 import 'package:microbiocol/data/profile_data.dart';
+import 'package:microbiocol/free_tire_pages/submit_ticket.dart'; // Ensure this is the correct path
+import 'package:microbiocol/global.dart' as globals; // Import globals
 import 'package:microbiocol/models/premium_profile_model.dart';
 import 'package:microbiocol/models/profile_model.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -18,9 +20,9 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  //tracking the free tire or premium
-
+  // tracking the free tier or premium
   bool isFreeTier = checkTire();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +58,10 @@ class _AccountState extends State<Account> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Jhon Doe",
-                        style: TextStyle(
+                      // Fetching user's name from globals
+                      Text(
+                        globals.firstName ?? "John Doe",
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
                           color: mprimaryColor,
@@ -75,7 +78,7 @@ class _AccountState extends State<Account> {
                         color: maccentGreenColor,
                         widget: Center(
                           child: Text(
-                            isFreeTier ? "Free Tire" : "Premium Tire",
+                            isFreeTier ? "Free Tier" : "Premium Tier",
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w300,
@@ -84,7 +87,7 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                         isHasBorder: false,
-                      )
+                      ),
                     ],
                   )
                 ],
@@ -100,12 +103,24 @@ class _AccountState extends State<Account> {
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  // ProfileModel freeTierData =
-                  //     ProfileData.ProfileDataList[index];
-                  // PremiumProfileModel premiumTierData =
-                  //     PremiumProfileData.premiumProfileDataList[index];
+                  return GestureDetector(
+                    onTap: () {
+                      // Detect when "Support" is tapped and navigate to SubmitTicket
+                      final title = isFreeTier
+                          ? ProfileData.ProfileDataList[index].title
+                          : PremiumProfileData.premiumProfileDataList[index].title;
 
-                  return _buildProfileSelections(index);
+                      if (title == "Support") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SubmitTicket(),
+                          ),
+                        );
+                      }
+                    },
+                    child: _buildProfileSelections(index),
+                  );
                 },
               ),
               const SizedBox(
@@ -134,7 +149,7 @@ class _AccountState extends State<Account> {
     );
   }
 
-  //create a single row of profile silection
+  // Create a single row of profile selection
   Widget _buildProfileSelections(int index) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
