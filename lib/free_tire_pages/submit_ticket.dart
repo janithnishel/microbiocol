@@ -7,6 +7,7 @@ import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/custom_form.dart';
+import 'package:microbiocol/free_tire_pages/feature_page.dart'; // Import your feature page
 import 'package:microbiocol/global.dart' as globals;
 
 class SubmitTicket extends StatefulWidget {
@@ -47,70 +48,69 @@ class _SubmitTicketState extends State<SubmitTicket> {
     }
   }
 
-Future<void> submitTicket() async {
-  // Simple form validation
-  if (nameController.text.isEmpty ||
-      emailController.text.isEmpty ||
-      subjectController.text.isEmpty ||
-      descriptionController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please fill all required fields.')),
-    );
-    return;
-  }
-
-  setState(() {
-    isLoading = true;
-  });
-
-  int? userId = globals.userId;
-  String? attachmentUrl;
-
-  // Upload the file to Firebase Storage if one is selected
-  try {
-    if (selectedFile != null) {
-      attachmentUrl = await uploadFile(selectedFile!);
-      if (attachmentUrl == null) {
-        throw Exception('Failed to upload the attachment.');
-      }
-    } else {
-      // Use a dummy URL if no file is selected
-      attachmentUrl = 'https://example.com/dummy-file-url';
-    }
-
-    // Call API to submit the ticket
-    bool result = await ApiService.submitTicket(
-      userId: userId ?? 0,
-      name: nameController.text,
-      email: emailController.text,
-      subject: subjectController.text,
-      description: descriptionController.text,
-      attachmentUrl: attachmentUrl,
-    );
-
-    setState(() {
-      isLoading = false;
-    });
-
-    if (result) {
+  Future<void> submitTicket() async {
+    // Simple form validation
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        subjectController.text.isEmpty ||
+        descriptionController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Ticket submitted successfully!'), backgroundColor: Colors.green),
+        const SnackBar(content: Text('Please fill all required fields.')),
       );
-    } else {
-      throw Exception('API returned false.');
+      return;
     }
-  } catch (error) {
+
     setState(() {
-      isLoading = false;
+      isLoading = true;
     });
 
-    // Log the detailed error to help identify the issue
-    print('Error submitting ticket: $error');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to submit the ticket: $error'), backgroundColor: Colors.red),
-    );
+    int? userId = globals.userId;
+    String? attachmentUrl;
+
+    try {
+      if (selectedFile != null) {
+        attachmentUrl = await uploadFile(selectedFile!);
+        if (attachmentUrl == null) {
+          throw Exception('Failed to upload the attachment.');
+        }
+      } else {
+        // Use a dummy URL if no file is selected
+        attachmentUrl = 'https://example.com/dummy-file-url';
+      }
+
+      // Call API to submit the ticket
+      bool result = await ApiService.submitTicket(
+        userId: userId ?? 0,
+        name: nameController.text,
+        email: emailController.text,
+        subject: subjectController.text,
+        description: descriptionController.text,
+        attachmentUrl: attachmentUrl,
+      );
+
+      setState(() {
+        isLoading = false;
+      });
+
+      if (result) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ticket submitted successfully!'), backgroundColor: Colors.green),
+        );
+      } else {
+        throw Exception('API returned false.');
+      }
+    } catch (error) {
+      setState(() {
+        isLoading = false;
+      });
+
+      // Log the detailed error to help identify the issue
+      print('Error submitting ticket: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to submit the ticket: $error'), backgroundColor: Colors.red),
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -206,6 +206,24 @@ Future<void> submitTicket() async {
                             onTap: submitTicket,
                           ),
                   ],
+                ),
+                const SizedBox(height: 15),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Feature(), // Navigates to the feature suggestion screen
+                      ),
+                    );
+                  },
+                  child: const CustomButton(
+                    isHasWidget: false,
+                    isHasBorder: true,
+                    title: "Suggest a Feature",
+                    color: mwhiteColor,
+                    textColor: mprimaryColor,
+                  ),
                 ),
               ],
             ),

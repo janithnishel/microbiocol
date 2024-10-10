@@ -219,5 +219,88 @@ static Future<bool> submitTicket({
     return false;
   }
 }
+
+// Submit a Feature Request
+  static Future<bool> submitFeature({
+    required String name,
+    required String email,
+    required String feature,
+    required int userId,
+  }) async {
+    try {
+      // Define the feature submission API endpoint
+      final Uri url = Uri.parse('$baseUrl/feature/features/');
+
+      // Make the POST request to the API with the required body
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'feature': feature,
+          'user_id': userId,
+        }),
+      );
+
+      // Check the response status code for success
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true; // Successfully submitted the feature
+      } else {
+        // Print the error message from the API for debugging
+        print('Failed to submit feature: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      // Catch and log any errors during the request
+      print('Error submitting feature: $e');
+      return false;
+    }
+  }
+
+
+ // Submit a review without token
+  static Future<bool> submitReview({
+    required String name,
+    required String email,
+    required String review,
+    required double rate,
+    required int userId,
+  }) async {
+    try {
+      // Define the review submission API endpoint
+      final Uri url = Uri.parse('$baseUrl/review/reviews/');
+
+      // Make the POST request to the API with the required body
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'review': review,
+          'rate': rate,
+          'user_id': userId,
+        }),
+      );
+
+      // Check the response status code for success
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true; // Successfully submitted the review
+      } else {
+        // Print the error message from the API for debugging
+        print('Failed to submit review: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      // Catch and log any errors during the request
+      print('Error submitting review: $e');
+      return false;
+    }
+  }
  
 }

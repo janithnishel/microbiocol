@@ -6,17 +6,27 @@ import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/custom_form.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
+import 'package:microbiocol/api_services/apiservice.dart';
+import 'package:microbiocol/global.dart' as globals;
 
-class Review extends StatelessWidget {
+class Review extends StatefulWidget {
   Review({super.key});
 
-  // tracking tier
-  bool isFreeTier = checkTire();
+  @override
+  _ReviewState createState() => _ReviewState();
+}
 
-  // Add controllers for the text fields
+class _ReviewState extends State<Review> {
+  // Define controllers for each field
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController reviewController = TextEditingController();
+
+  // Track user rating
+  int rating = 0;
+
+  // Check tier
+  bool isFreeTier = checkTire();
 
   @override
   Widget build(BuildContext context) {
@@ -32,55 +42,54 @@ class Review extends StatelessWidget {
               Column(
                 children: [
                   titleBar(context, title: "Review"),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   CustomForm(
                     noOfField: 3,
-                    hintText: const ["Your Name", "Email", "Review"],
                     controllers: [
-                      nameController, // Ensure these match the fields
+                      nameController,
                       emailController,
                       reviewController,
                     ],
+                    hintText: const ["Your Name", "Email", "Review"],
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Give Us a Start Rate",
+                        "Give Us a Star Rating",
                         style: TextStyle(
                           color: mprimaryColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w300,
                         ),
                       ),
-                      SizedBox(
-                        width: 140,
+                      Flexible(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            for (int i = 0; i < 5; i++)
-                              const Icon(
-                                Icons.star_border,
-                                size: 25,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: List.generate(5, (index) {
+                            return IconButton(
+                              icon: Icon(
+                                index < rating ? Icons.star : Icons.star_border,
                                 color: mprimaryColor,
                               ),
-                          ],
+                              onPressed: () {
+                                setState(() {
+                                  rating = index + 1;
+                                });
+                              },
+                            );
+                          }),
                         ),
-                      )
+                      ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  const CustomButton(
+                  const SizedBox(height: 30),
+                  CustomButton(
                     isHasWidget: false,
                     isHasBorder: false,
                     title: "Submit",
+                    onTap: submitReview, // Function call to submit the review
                   ),
                 ],
               ),
@@ -130,5 +139,58 @@ class Review extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Function to submit the review
+  Future<void> submitReview() async {
+    final int? userId = globals.userId; // Retrieve userId from globals
+
+    // Simple validation
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        reviewController.text.isEmpty ||
+        rating == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all fields and select a rating.')),
+      );
+      return;
+    }
+
+    // Basic email validation
+    final email = emailController.text;
+    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid email address.')),
+      );
+      return;
+    }
+
+    // Call the API to submit the review
+    bool result = await ApiService.submitReview(
+      userId: userId ?? 0,
+      name: nameController.text,
+      email: emailController.text,
+      review: reviewController.text,
+      rate: rating.toDouble(),
+    );
+
+    if (result) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Review submitted successfully!'), backgroundColor: Colors.green),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to submit review'), backgroundColor: Colors.red),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controllers when the widget is disposed.
+    nameController.dispose();
+    emailController.dispose();
+    reviewController.dispose();
+    super.dispose();
   }
 }

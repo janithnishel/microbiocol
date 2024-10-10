@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
               fontFamily: "Lato",
             ),
       ),
-      home:  Review(),
-          // home: const SplashScreen(),
+      // home:  Review(),
+          home: const SplashScreen(),
     );
   }
 }
