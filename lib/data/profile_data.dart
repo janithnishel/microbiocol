@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:microbiocol/free_tire_pages/submit_ticket.dart';
+import 'package:microbiocol/free_tire_pages/unlock_premium.dart'; // Ensure correct import
 import 'package:microbiocol/models/profile_model.dart';
 
 // Boolean value changes according to the user's tier
@@ -25,10 +26,11 @@ class ProfileData extends StatelessWidget {
             leading: Icon(ProfileDataList[index].icon),
             title: Text(ProfileDataList[index].title),
             onTap: () {
+              // Debugging log
+              print('Tapped: ${ProfileDataList[index].title}');
+
               if (ProfileDataList[index].title == "Support") {
-                print("Support option clicked"); // Debugging line
                 if (checkTire()) {
-                  print("Free tier detected"); // Debugging line
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -49,12 +51,23 @@ class ProfileData extends StatelessWidget {
                     },
                   );
                 } else {
-                  print("Navigating to SubmitTicket"); // Debugging line
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SubmitTicket()),
                   );
                 }
+              }
+
+              // Handle Subscription Settings
+              else if (ProfileDataList[index].title == "Subscription Settings") {
+                print("Navigating to UnlockPremium"); // Debugging line
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UnlockPremium()),
+                ).then((_) {
+                  // Optional: add logic after returning from UnlockPremium if needed
+                  print("Returned from UnlockPremium");
+                });
               }
             },
           );

@@ -4,6 +4,8 @@ import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/utils/responsive.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
+import 'package:microbiocol/api_services/apiservice.dart'; // Import ApiService
+import 'package:microbiocol/global.dart' as globals; // Import globals for userId and token
 
 class UnlockPremium extends StatefulWidget {
   const UnlockPremium({super.key});
@@ -13,13 +15,62 @@ class UnlockPremium extends StatefulWidget {
 }
 
 class _UnlockPremiumState extends State<UnlockPremium> {
-//tracking the which package clicked
+  int _isTapped = 0; // 0 for Monthly, 1 for Annual
+  bool _isLoading = false; // For loading indicator when submitting
 
-  int _isTapped = 0;
+  // Subscription data
+  String _subscriptionType = 'Tech'; // Example subscription type
+  String _billingFrequency = 'monthly'; // Default to monthly
+  double _subscriptionPrice = 9.99; // Monthly price
+  int _idsPerMonth = 10;
+  double _savingsPercentage = 0.0;
+  int _freeIdCount = 5;
+  int _purchasedIdCount = 0;
+
+  // Method to handle subscription submission
+  Future<void> _submitSubscription() async {
+    setState(() {
+      _isLoading = true; // Show loading indicator
+    });
+
+    // Fetch userId from globals
+    int? userId = globals.userId;
+
+    if (userId == null) {
+      print("User ID not available");
+      setState(() {
+        _isLoading = false; // Hide loading indicator
+      });
+      return;
+    }
+
+    // Submit subscription details using ApiService
+    bool success = await ApiService.submitSubscription(
+      userId: userId,
+      subscriptionType: _subscriptionType,
+      billingFrequency: _billingFrequency,
+      subscriptionPlan: 'premium',
+      subscriptionPrice: _subscriptionPrice,
+      idsPerMonth: _idsPerMonth,
+      savingsPercentage: _savingsPercentage,
+      subscriptionEndDate: '2024-11-25T09:10:17.399Z', // Example end date
+      freeIdCount: _freeIdCount,
+      purchasedIdCount: _purchasedIdCount,
+    );
+
+    setState(() {
+      _isLoading = false; // Hide loading indicator
+    });
+
+    if (success) {
+      print("Subscription submitted successfully");
+    } else {
+      print("Failed to submit subscription");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    //Get the bool value by calling the "smallWidth" method depending on the screen size variation.
     bool responsive = Responsive.smallWidth(context);
     return Scaffold(
       backgroundColor: mwhiteColor,
@@ -37,7 +88,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                       Text(
                         "Unlock Counts with Premium",
                         style: TextStyle(
-                          fontSize: responsive == true ? 20 : 24,
+                          fontSize: responsive ? 20 : 24,
                           fontWeight: FontWeight.w700,
                           color: mprimaryColor,
                         ),
@@ -46,7 +97,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                         padding: const EdgeInsets.only(top: 5),
                         child: Icon(
                           Icons.close,
-                          size: responsive == true ? 20 : 24,
+                          size: responsive ? 20 : 24,
                           color: mprimaryColor,
                         ),
                       ),
@@ -74,17 +125,18 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                       )
                     ],
                   ),
-                  for (int i = 0;
-                      i < SubscriptionData.SubscriptionDataList.length;
-                      i++)
-                    _subscriptionDetails(i)
+                  for (int i = 0; i < SubscriptionData.SubscriptionDataList.length; i++)
+                    _subscriptionDetails(i),
                 ],
               ),
-              const CustomButton(
-                isHasWidget: false,
-                isHasBorder: false,
-                title: "Subscribe Now",
-              ),
+              _isLoading
+                  ? const CircularProgressIndicator() // Show loader if the subscription is being submitted
+                  : CustomButton(
+                      isHasWidget: false,
+                      isHasBorder: false,
+                      title: "Subscribe Now",
+                      onTap: _submitSubscription, // Call subscription submission on tap
+                    ),
             ],
           ),
         ),
@@ -92,30 +144,34 @@ class _UnlockPremiumState extends State<UnlockPremium> {
     );
   }
 
-  //create a single billing card view
-  Widget _billCard(
-      {required String billingMethod,
-      required double billingPrice,
-      required String billingStatus,
-      required bool responsive,
-      required bool isHasSave,
-      required int isClick}) {
+  // Create a single billing card view
+  Widget _billCard({
+    required String billingMethod,
+    required double billingPrice,
+    required String billingStatus,
+    required bool responsive,
+    required bool isHasSave,
+    required int isClick,
+  }) {
     return GestureDetector(
       onTap: () {
         setState(() {
           _isTapped = isClick;
+          _billingFrequency = isClick == 0 ? 'monthly' : 'annually';
+          _subscriptionPrice = isClick == 0 ? 9.99 : 79.99; // Change price based on selection
+          _savingsPercentage = isClick == 1 ? 33.0 : 0.0; // Annual plan has savings
         });
       },
       child: CustommBox(
         isHasBoxShadow: false,
-        width: responsive == true ? 160 : 186,
-        height: responsive == true ? 156 : 175,
+        width: responsive ? 160 : 186,
+        height: responsive ? 156 : 175,
         borderRadius: 8,
         color: _isTapped == isClick ? mprimaryColor : mwhiteColor,
         widget: Padding(
           padding: EdgeInsets.symmetric(
-              vertical: responsive == true ? 10 : 20,
-              horizontal: responsive == true ? 10 : 20),
+              vertical: responsive ? 10 : 20,
+              horizontal: responsive ? 10 : 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,9 +188,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w400,
-                          color: _isTapped == isClick
-                              ? mwhiteColor
-                              : mprimaryColor,
+                          color: _isTapped == isClick ? mwhiteColor : mprimaryColor,
                         ),
                       ),
                       CustommBox(
@@ -166,7 +220,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                   const SizedBox(
                     height: 5,
                   ),
-                  isHasSave == true
+                  isHasSave
                       ? const CustommBox(
                           isHasBoxShadow: false,
                           width: 76,
@@ -185,7 +239,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                           ),
                           isHasBorder: false,
                         )
-                      : const Text("")
+                      : const Text(""),
                 ],
               ),
               Text(
@@ -204,7 +258,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
     );
   }
 
-  //create the single row of subscription details
+  // Create the single row of subscription details
   Widget _subscriptionDetails(int index) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),

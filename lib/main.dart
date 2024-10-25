@@ -6,6 +6,7 @@ import 'package:microbiocol/free_tire_pages/details_page.dart';
 import 'package:microbiocol/free_tire_pages/feature_page.dart';
 import 'package:microbiocol/free_tire_pages/review_page.dart';
 import 'package:microbiocol/free_tire_pages/submit_ticket.dart';
+import 'package:microbiocol/free_tire_pages/subscriptions.dart';
 import 'package:microbiocol/free_tire_pages/unlock_premium.dart';
 import 'package:microbiocol/login_register_pages/splash_screen.dart';
 

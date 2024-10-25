@@ -302,5 +302,54 @@ static Future<bool> submitTicket({
       return false;
     }
   }
+
+
+  // Submit Subscription
+  static Future<bool> submitSubscription({
+    required int userId,
+    required String subscriptionType,
+    required String billingFrequency,
+    required String subscriptionPlan,
+    required double subscriptionPrice,
+    required int idsPerMonth,
+    required double savingsPercentage,
+    required String subscriptionEndDate,
+    required int freeIdCount,
+    required int purchasedIdCount,
+  }) async {
+    final Uri url = Uri.parse('$baseUrl/subscriptions/subscriptions/');
+    
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer ${globals.accessToken}', // Pass authorization token if required
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'user_id': userId,
+          'subscription_type': subscriptionType,
+          'billing_frequency': billingFrequency,
+          'subscription_plan': subscriptionPlan,
+          'subscription_price': subscriptionPrice,
+          'ids_per_month': idsPerMonth,
+          'savings_percentage': savingsPercentage,
+          'subscription_end_date': subscriptionEndDate,
+          'free_id_count': freeIdCount,
+          'purchased_id_count': purchasedIdCount,
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true; // Successfully submitted
+      } else {
+        print('Failed to submit subscription: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Error submitting subscription: $e');
+      return false;
+    }
+  }
  
 }

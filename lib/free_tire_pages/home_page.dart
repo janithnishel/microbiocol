@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:microbiocol/api_services/apiservice.dart';
 import 'package:microbiocol/free_tire_pages/camerascreen.dart';
+import 'package:microbiocol/free_tire_pages/unlock_Premium.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
@@ -195,24 +196,35 @@ class _HomePageState extends State<HomePage> {
                   height: 10,
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 160,
-                  child: Stack(
-                    children: [
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 3, // Static or dynamic number of saved items
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          return _savedItemList(index, context); // Example saved items
-                        },
-                      ),
-                      if (true) // Change 'true' with actual condition to lock
-                        lockBox(context, true, MediaQuery.of(context).size.height)
-                    ],
-                  ),
-                )
+  width: MediaQuery.of(context).size.width,
+  height: 160,
+  child: Stack(
+    children: [
+      ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 3, // Static or dynamic number of saved items
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) {
+          return _savedItemList(index, context); // Example saved items
+        },
+      ),
+      GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UnlockPremium()),
+          );
+        },
+        child: lockBox(
+          context,
+          true,
+          MediaQuery.of(context).size.height,
+        ),
+      ),
+    ],
+  ),
+)
               ],
             ),
           ),
@@ -314,11 +326,11 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             width: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   "Saved Item",
                   style: TextStyle(
