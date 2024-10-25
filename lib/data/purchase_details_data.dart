@@ -1,7 +1,7 @@
-import 'package:microbiocol/models/purchase_details_model;.dart';
+import 'package:microbiocol/models/purchase_details_model.dart';
 
 class PurchaseDetailsData {
-  final List<PurchaseDetailsModel> PurchaseDetailsDataList = [
+  final List<PurchaseDetailsModel> purchaseDetailsDataList = [
     PurchaseDetailsModel(
       count: 20,
       price: 20,

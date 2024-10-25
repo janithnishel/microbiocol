@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:microbiocol/data/premium_profile_data.dart';
 import 'package:microbiocol/data/profile_data.dart';
-import 'package:microbiocol/models/premium_profile_model.dart';
-import 'package:microbiocol/models/profile_model.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
@@ -94,17 +92,12 @@ class _AccountState extends State<Account> {
               ),
               ListView.builder(
                 itemCount: isFreeTier
-                    ? ProfileData.ProfileDataList.length
+                    ? ProfileData.profileDataList.length
                     : PremiumProfileData.premiumProfileDataList.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  // ProfileModel freeTierData =
-                  //     ProfileData.ProfileDataList[index];
-                  // PremiumProfileModel premiumTierData =
-                  //     PremiumProfileData.premiumProfileDataList[index];
-
                   return _buildProfileSelections(index);
                 },
               ),
@@ -150,7 +143,7 @@ class _AccountState extends State<Account> {
             widget: Center(
               child: Icon(
                 isFreeTier
-                    ? ProfileData.ProfileDataList[index].icon
+                    ? ProfileData.profileDataList[index].icon
                     : PremiumProfileData.premiumProfileDataList[index].icon,
                 size: 20,
                 color: mprimaryColor,
@@ -165,7 +158,7 @@ class _AccountState extends State<Account> {
             width: 228,
             child: Text(
               isFreeTier
-                  ? ProfileData.ProfileDataList[index].title
+                  ? ProfileData.profileDataList[index].title
                   : PremiumProfileData.premiumProfileDataList[index].title,
               style: const TextStyle(
                 fontSize: 24,

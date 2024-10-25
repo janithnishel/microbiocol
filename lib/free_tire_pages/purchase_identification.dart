@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:microbiocol/data/purchase_details_data.dart';
-import 'package:microbiocol/models/purchase_details_model;.dart';
+import 'package:microbiocol/models/purchase_details_model.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/utils/responsive.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
@@ -12,7 +12,7 @@ class PurchaseIdentification extends StatelessWidget {
   final infoBox = InfoBox();
 
   //create the instance for fetch the purchase details
-  final purchaseDetails = PurchaseDetailsData().PurchaseDetailsDataList;
+  final purchaseDetails = PurchaseDetailsData().purchaseDetailsDataList;
 
   @override
   Widget build(BuildContext context) {

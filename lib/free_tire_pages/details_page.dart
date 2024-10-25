@@ -7,18 +7,18 @@ import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/lock_box.dart';
 
 class DetailsPage extends StatelessWidget {
-  DetailsPage({super.key});
+  const DetailsPage({super.key});
 
-  // create the  key research topic list
-
-  final List<String> topics = [
-    "Lorem ipsum dolor sit amet",
-    "Consectetur adipiscing elit"
-  ];
-  //check whether the free tire or premium
-  bool isFreeTire = checkTire();
   @override
   Widget build(BuildContext context) {
+    // create the  key research topic list
+
+    final List<String> topics = [
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit"
+    ];
+    //check whether the free tire or premium
+    bool isFreeTire = checkTire();
     return Scaffold(
       backgroundColor: mwhiteColor,
       body: SingleChildScrollView(

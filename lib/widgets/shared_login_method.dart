@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 
-Widget loginMethod() {
+Widget loginMethod({double height=36,double borderWidth =1,double iconsize =16,double borderRadius=8,double padding=8}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -13,31 +14,34 @@ Widget loginMethod() {
           flex: 1,
           child: Padding(
             padding: a == 0
-                ? const EdgeInsets.only(right: 8)
+                ? EdgeInsets.only(right: padding)
                 : a == 2
-                    ? const EdgeInsets.only(left: 8)
-                    : const EdgeInsets.only(left: 4, right: 4),
+                    ?  EdgeInsets.only(left: padding)
+                    :  EdgeInsets.only(left: padding/2, right: padding/2),
             child: CustomButton(
               isHasWidget: true,
               color: mwhiteColor,
               isHasBorder: true,
+              height:height ,
+              borderWidth: borderWidth,
+              borderRadius: borderRadius,
               widget: Center(
                 child: a == 0
                     ? SvgPicture.asset(
                         "assets/images/google.svg",
                         fit: BoxFit.cover,
-                        height: 16,
-                        width: 16,
+                        height: iconsize,
+                        width: iconsize,
                       )
                     : a == 1
-                        ? const Icon(
+                        ?  Icon(
                             FontAwesomeIcons.facebook,
-                            color: Color(0xff0F6AEF),
-                            size: 16,
+                            color: const Color(0xff0F6AEF),
+                            size: iconsize,
                           )
-                        : const Icon(
+                        :  Icon(
                             FontAwesomeIcons.squareXTwitter,
-                            size: 16,
+                            size: iconsize,
                           ),
               ),
             ),

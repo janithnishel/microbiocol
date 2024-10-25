@@ -11,22 +11,18 @@ import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/lock_box.dart';
+import 'package:microbiocol/global.dart' as globals; // Import globals
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   // fetching data from recentcard class
   final recentData = RecentCardData().recentDataList;
 
-// fetching data from savedItem class
+  // fetching data from savedItem class
   final savedData = SavedItemData().savedDataList;
 
-  //check whether the free tire or premium
+  // check whether the free tier or premium
   final bool isFreeTire = checkTire();
 
   @override
@@ -40,9 +36,10 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Hi, Jhon",
-                  style: TextStyle(
+                // Displaying the first name from globals
+                Text(
+                  "Hi, ${globals.firstName ?? 'User'}", // Use globals.firstName
+                  style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                       color: mprimaryColor),
@@ -109,13 +106,16 @@ class _HomePageState extends State<HomePage> {
                               : const EdgeInsets.only(left: 8),
                           child: GestureDetector(
                             onTap: () {
-                              if (i == 1)
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CameraUI(),
-                                  ),
-                                );
+                              // Navigate to CameraUI page
+
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      const CameraUI(), // Navigate to CameraUI
+                                ),
+                              );
                             },
                             child: CustomButton(
                               isHasWidget: true,
@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                                         0xffFDFFFC,
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),

@@ -105,6 +105,7 @@ class _LogState extends State<Log> {
                             fit: BoxFit.cover,
                             width: 13,
                             height: 13,
+                            // ignore: deprecated_member_use
                             color: mprimaryColor,
                           ),
                         ),

@@ -1,9 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:microbiocol/desktop/desktop_loading_screen.dart';
+import 'dart:io';
 
-void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // final cameras = await availableCameras();
+import 'package:flutter/material.dart';
+import 'package:microbiocol/app_route/desktop_route.dart';
+import 'package:window_manager/window_manager.dart';
+
+void main() async{
+   WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  if (Platform.isWindows) 
+  
+  {
+    WindowManager.instance.setMinimumSize(const Size(1160, 775));
+    WindowManager.instance.setMaximumSize( const Size(2000, 2000));
+  }
   runApp(const MyApp());
 }
 
@@ -12,14 +21,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: Theme.of(context).textTheme.apply(
               fontFamily: "Lato",
             ),
       ),
-      home: const DesktopLoadingScreen(),
+routerConfig: DesktopRoute().route,
     );
   }
 }

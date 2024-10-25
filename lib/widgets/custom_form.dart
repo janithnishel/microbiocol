@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:microbiocol/widgets/custom_txetfiled.dart';
 
+// ignore: must_be_immutable
 class CustomForm extends StatelessWidget {
   final int noOfField;
-
   List<String> hintText = [];
   CustomForm({super.key, required this.noOfField, required this.hintText});
 

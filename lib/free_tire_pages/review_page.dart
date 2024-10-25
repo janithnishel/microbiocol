@@ -8,13 +8,13 @@ import 'package:microbiocol/widgets/custom_form.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class Review extends StatelessWidget {
-  Review({super.key});
+  const Review({super.key});
 
-  //tracking tier
-
-  bool isFreeTier = checkTire();
   @override
   Widget build(BuildContext context) {
+    //tracking tier
+
+    bool isFreeTier = checkTire();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: mwhiteColor,
@@ -80,8 +80,10 @@ class Review extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => SubmitTicket(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const SubmitTicket(),
                         ),
                       );
                     },
@@ -100,8 +102,10 @@ class Review extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => Feature(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const Feature(),
                         ),
                       );
                     },

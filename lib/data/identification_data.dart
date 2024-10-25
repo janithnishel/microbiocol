@@ -1,7 +1,7 @@
 import 'package:microbiocol/models/identification_model.dart';
 
 class IdentificationData {
-  final List<IdentificationModel> IdentificationDataList = [
+  final List<IdentificationModel> identificationDataList = [
     IdentificationModel(
       imageUrl: "assets/images/demo.png",
       title: "Id 06-07-2024 18 29",

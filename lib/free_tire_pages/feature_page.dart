@@ -8,14 +8,14 @@ import 'package:microbiocol/widgets/custom_form.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class Feature extends StatelessWidget {
-  Feature({super.key});
-
-  //check tier
-
-  bool isFreeTier = checkTire();
+  const Feature({super.key});
 
   @override
   Widget build(BuildContext context) {
+    //check tier
+
+    bool isFreeTier = checkTire();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: mwhiteColor,
@@ -27,7 +27,7 @@ class Feature extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  titleBar(context, title:"Suggest a Feature"),
+                  titleBar(context, title: "Suggest a Feature"),
                   const SizedBox(
                     height: 10,
                   ),
@@ -51,15 +51,19 @@ class Feature extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) =>  SubmitTicket(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const SubmitTicket(),
                         ),
                       );
                     },
-                    child:  CustomButton(
+                    child: CustomButton(
                       isHasWidget: false,
                       isHasBorder: true,
-                      title: isFreeTier? "Raise a Ticket":"Raise a Priority Ticket",
+                      title: isFreeTier
+                          ? "Raise a Ticket"
+                          : "Raise a Priority Ticket",
                       color: mwhiteColor,
                       textColor: mprimaryColor,
                     ),
@@ -71,8 +75,10 @@ class Feature extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => Review(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const Review(),
                         ),
                       );
                     },

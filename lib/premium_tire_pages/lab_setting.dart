@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:microbiocol/data/lab_setting_data.dart';
 import 'package:microbiocol/models/lab_setting_model.dart';
 import 'package:microbiocol/utils/colors.dart';
@@ -12,7 +11,7 @@ class LabSetting extends StatelessWidget {
 
   //fetch the labsetting data
 
-  final labSettingData = LabSettingData().LabSettingDataList;
+  final labSettingData = LabSettingData().labSettingDataList;
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +49,10 @@ class LabSetting extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    CustomButton(
+                    const CustomButton(
                       isHasWidget: false,
                       isHasBorder: false,
                       title: "Add New Equipment",

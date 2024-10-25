@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:microbiocol/desktop/desktop_login.dart';
-import 'package:microbiocol/login_register_pages/login_page.dart';
-import 'package:microbiocol/login_register_pages/register_page.dart';
+import 'package:microbiocol/desktop/login_pages/desktop_login.dart';
+import 'package:microbiocol/desktop/login_pages/desktop_register.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
@@ -14,11 +13,7 @@ class DesktopLoadingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: mwhiteColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.3,
-            vertical: MediaQuery.of(context).size.height * 0.2,
-          ),
+        child: Center(
           child: CustommBox(
             width: 645,
             height: 504,
@@ -48,7 +43,7 @@ class DesktopLoadingScreen extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: "Lato",
                       fontWeight: FontWeight.w700,
-                      fontSize: 24,
+                      fontSize: 48,
                       color: mprimaryColor,
                     ),
                   ),
@@ -59,8 +54,10 @@ class DesktopLoadingScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const DesktopLogin(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const DesktopLogin(),
                         ),
                       );
                     },
@@ -68,17 +65,22 @@ class DesktopLoadingScreen extends StatelessWidget {
                       isHasWidget: false,
                       title: "Login",
                       isHasBorder: false,
+                      fontSize: 24,
+                      height: 56,
+                      borderRadius: 16,
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const Register(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const DesktopRegister(),
                         ),
                       );
                     },
@@ -86,6 +88,9 @@ class DesktopLoadingScreen extends StatelessWidget {
                       isHasWidget: false,
                       title: "Register",
                       isHasBorder: false,
+                      fontSize: 24,
+                      height: 56,
+                      borderRadius: 16,
                     ),
                   ),
                 ],

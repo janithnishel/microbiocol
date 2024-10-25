@@ -10,13 +10,12 @@ import 'package:microbiocol/widgets/custom_form.dart';
 import 'package:microbiocol/widgets/title_bar.dart';
 
 class SubmitTicket extends StatelessWidget {
-  SubmitTicket({super.key});
-
-  //check the tier
-  bool isFreeTier = checkTire();
+  const SubmitTicket({super.key});
 
   @override
   Widget build(BuildContext context) {
+    //check the tier
+    bool isFreeTier = checkTire();
     return Scaffold(
       backgroundColor: mwhiteColor,
       body: Responsive.smailHeight(context) == false
@@ -123,8 +122,10 @@ class SubmitTicket extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => Review(),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const Review(),
                               ),
                             );
                           },
@@ -143,8 +144,10 @@ class SubmitTicket extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => Feature(),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const Feature(),
                               ),
                             );
                           },
@@ -269,8 +272,10 @@ class SubmitTicket extends StatelessWidget {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => Review(),
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      const Review(),
                                 ),
                               );
                             },
@@ -289,8 +294,10 @@ class SubmitTicket extends StatelessWidget {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => Feature(),
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      const Feature(),
                                 ),
                               );
                             },

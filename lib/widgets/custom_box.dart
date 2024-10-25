@@ -56,6 +56,7 @@ class CustommBox extends StatelessWidget {
             ? Border.all(
                 width: borderWidth ?? 1,
                 color: borderColor ?? mprimaryColor,
+                
               )
             : null,
       ),

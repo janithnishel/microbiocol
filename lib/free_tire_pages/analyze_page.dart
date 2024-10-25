@@ -17,7 +17,7 @@ class Analyze extends StatefulWidget {
 class _AnalyzeState extends State<Analyze> {
 // fetch the identification details from identification class
 
-  final identificationData = IdentificationData().IdentificationDataList;
+  final identificationData = IdentificationData().identificationDataList;
 
   // store the clickable button index
 

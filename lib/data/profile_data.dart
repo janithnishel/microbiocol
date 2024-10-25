@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:microbiocol/models/profile_model.dart';
 
 class ProfileData {
-  static List<ProfileModel> ProfileDataList = [
+  static List<ProfileModel> profileDataList = [
     ProfileModel(
       icon: FontAwesomeIcons.user,
       title: "Personal Information",

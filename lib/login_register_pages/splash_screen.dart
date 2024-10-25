@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:microbiocol/desktop/login_pages/desktop_loading_screen.dart';
 import 'package:microbiocol/login_register_pages/loading_screen.dart';
 import 'package:microbiocol/utils/colors.dart';
 
@@ -22,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
       () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoadingScreen(),
+          builder: (context) => Platform.isAndroid ?const LoadingScreen():const DesktopLoadingScreen(),
         ),
       ),
     );

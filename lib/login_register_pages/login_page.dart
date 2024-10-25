@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:microbiocol/api_services/apiservice.dart';
 import 'package:microbiocol/login_register_pages/forgot_password.dart';
 import 'package:microbiocol/login_register_pages/register_page.dart';
 import 'package:microbiocol/micro_bio.dart';
@@ -17,6 +18,33 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool isShow = true;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future<void> loginUser() async {
+    final success = await ApiService.loginUser(
+        _emailController.text, _passwordController.text);
+
+    if (success) {
+      // Navigate to the HomePage (or another page) upon successful login
+
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const MicroBio(),
+        ),
+      );
+    } else {
+      // Handle login failure (e.g., incorrect credentials)
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login failed. Please check your credentials.'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,14 +73,16 @@ class _LoginState extends State<Login> {
                   Form(
                     child: Column(
                       children: [
-                        const CustomTextField(
+                        CustomTextField(
                           hintText: "Email",
                           keyBoardType: TextInputType.emailAddress,
+                          controller: _emailController,
                         ),
                         const SizedBox(height: 15),
                         CustomTextField(
                           hintText: "Password",
                           isObscureText: isShow,
+                          controller: _passwordController,
                           isHasSuffixIcon: true,
                           suffixIcon: InkWell(
                             onTap: () {
@@ -80,14 +110,8 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(height: 30),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MicroBio(),
-                        ),
-                      );
-                    },
+                    onTap:
+                        loginUser, // Call loginUser when the button is pressed
                     child: const CustomButton(
                       isHasWidget: false,
                       title: "Login",
@@ -99,8 +123,10 @@ class _LoginState extends State<Login> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const ForgotPassword(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const ForgotPassword(),
                         ),
                       );
                     },
@@ -123,8 +149,9 @@ class _LoginState extends State<Login> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const Register(),
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const Register(),
                     ),
                   );
                 },

@@ -75,7 +75,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                     ],
                   ),
                   for (int i = 0;
-                      i < SubscriptionData.SubscriptionDataList.length;
+                      i < SubscriptionData.subscriptionDataList.length;
                       i++)
                     _subscriptionDetails(i)
                 ],
@@ -220,7 +220,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                   width: 20,
                 ),
                 Text(
-                  SubscriptionData.SubscriptionDataList[index].title,
+                  SubscriptionData.subscriptionDataList[index].title,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,

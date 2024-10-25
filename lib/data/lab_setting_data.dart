@@ -1,7 +1,7 @@
 import 'package:microbiocol/models/lab_setting_model.dart';
 
 class LabSettingData {
-  final List<LabSettingModel> LabSettingDataList = [
+  final List<LabSettingModel> labSettingDataList = [
     LabSettingModel(
       title: "Incubator",
       subTitle: 2,

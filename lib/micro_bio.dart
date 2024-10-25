@@ -30,7 +30,7 @@ class _MicroBiiState extends State<MicroBio> {
     const Analyze(),
     const DB(),
     const Log(),
-    Account(),
+    const Account(),
   ];
   @override
   Widget build(BuildContext context) {
