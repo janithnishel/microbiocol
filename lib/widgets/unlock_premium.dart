@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:microbiocol/data/subscription_data.dart';
+import 'package:microbiocol/models/subscription_model.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/utils/responsive.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
-import 'package:microbiocol/widgets/custom_button.dart';
 
 class UnlockPremium extends StatefulWidget {
-  const UnlockPremium({super.key});
+  final String role;
+  final double monthlyPrice;
+  final double annuallyPrice;
+  final List<SubscriptionModel> packageDetails;
+
+  const UnlockPremium({
+    super.key,
+    required this.role,
+    required this.packageDetails,
+    required this.monthlyPrice,
+    required this.annuallyPrice,
+  });
 
   @override
   State<UnlockPremium> createState() => _UnlockPremiumState();
@@ -24,69 +34,38 @@ class _UnlockPremiumState extends State<UnlockPremium> {
     return Scaffold(
       backgroundColor: mwhiteColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Unlock Counts with Premium",
-                        style: TextStyle(
-                          fontSize: responsive == true ? 20 : 24,
-                          fontWeight: FontWeight.w700,
-                          color: mprimaryColor,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Icon(
-                          Icons.close,
-                          size: responsive == true ? 20 : 24,
-                          color: mprimaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _billCard(
-                        billingMethod: "Monthly",
-                        billingPrice: 9.99,
-                        billingStatus: "Billed Monthly",
-                        responsive: responsive,
-                        isHasSave: false,
-                        isClick: 0,
-                      ),
-                      _billCard(
-                        billingMethod: "Annual",
-                        billingPrice: 79.99,
-                        billingStatus: "Billed Annually",
-                        responsive: responsive,
-                        isHasSave: true,
-                        isClick: 1,
-                      )
-                    ],
-                  ),
-                  for (int i = 0;
-                      i < SubscriptionData.subscriptionDataList.length;
-                      i++)
-                    _subscriptionDetails(i)
-                ],
-              ),
-              const CustomButton(
-                isHasWidget: false,
-                isHasBorder: false,
-                title: "Subscribe Now",
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _billCard(
+                      billingMethod: widget.role,
+                      billingPrice: widget.monthlyPrice,
+                      billingStatus: "Billed Monthly",
+                      responsive: responsive,
+                      isHasSave: false,
+                      isClick: 0,
+                    ),
+                    _billCard(
+                      billingMethod: widget.role,
+                      billingPrice: widget.annuallyPrice,
+                      billingStatus: "Billed Annually",
+                      responsive: responsive,
+                      isHasSave: true,
+                      isClick: 1,
+                    )
+                  ],
+                ),
+                for (int i = 0; i < widget.packageDetails.length; i++)
+                  _subscriptionDetails(i, widget.packageDetails[i])
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -99,12 +78,15 @@ class _UnlockPremiumState extends State<UnlockPremium> {
       required String billingStatus,
       required bool responsive,
       required bool isHasSave,
+      double discount = 4,
       required int isClick}) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _isTapped = isClick;
-        });
+        setState(
+          () {
+            _isTapped = isClick;
+          },
+        );
       },
       child: CustommBox(
         isHasBoxShadow: false,
@@ -114,8 +96,9 @@ class _UnlockPremiumState extends State<UnlockPremium> {
         color: _isTapped == isClick ? mprimaryColor : mwhiteColor,
         widget: Padding(
           padding: EdgeInsets.symmetric(
-              vertical: responsive == true ? 10 : 20,
-              horizontal: responsive == true ? 10 : 20),
+            vertical: responsive == true ? 10 : 15,
+            horizontal: responsive == true ? 10 : 15,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +150,7 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                     height: 5,
                   ),
                   isHasSave == true
-                      ? const CustommBox(
+                      ? CustommBox(
                           isHasBoxShadow: false,
                           width: 76,
                           height: 20,
@@ -175,8 +158,8 @@ class _UnlockPremiumState extends State<UnlockPremium> {
                           color: maccentGreenColor,
                           widget: Center(
                             child: Text(
-                              "SAVE 33%",
-                              style: TextStyle(
+                              "SAVE ${discount.toStringAsFixed(0)}%",
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: mwhiteColor,
@@ -205,40 +188,29 @@ class _UnlockPremiumState extends State<UnlockPremium> {
   }
 
   //create the single row of subscription details
-  Widget _subscriptionDetails(int index) {
+  Widget _subscriptionDetails(int index, SubscriptionModel data) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: _isTapped == 0
-          ? Row(
-              children: [
-                const Icon(
-                  Icons.check_sharp,
-                  color: mprimaryColor,
-                  size: 20,
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Text(
-                  SubscriptionData.subscriptionDataList[index].title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: mprimaryColor,
-                  ),
-                )
-              ],
-            )
-          : const Center(
-              child: Text(
-                "",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: mprimaryColor,
-                ),
-              ),
+      padding: EdgeInsets.only(top: index == 0 ? 30 : 20),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.check_sharp,
+            color: mprimaryColor,
+            size: 20,
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Text(
+            data.title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: mprimaryColor,
             ),
+          )
+        ],
+      ),
     );
   }
 }

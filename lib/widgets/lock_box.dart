@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:microbiocol/utils/colors.dart';
 import 'package:microbiocol/widgets/custom_box.dart';
 
-Widget lockBox(BuildContext context, bool isFreeTire, height) {
-  return CustommBox(
-    isHasBoxShadow: false,
-    isHasBorder: false,
+Widget lockBox(BuildContext context, height) {
+  return Container(
     width: MediaQuery.of(context).size.width,
     height: height,
-    borderRadius: 8,
-    color: mprimaryColor.withOpacity(0.9),
-    widget: const Column(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      color: mprimaryColor.withOpacity(0.9),
+    ),
+    child: const Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

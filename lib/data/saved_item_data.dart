@@ -10,5 +10,21 @@ class SavedItemData {
       name: "Staphylococcus",
       date: "01/04/2024",
     ),
+    SavedItemModel(
+      name: "Staphylococcus",
+      date: "01/04/2024",
+    ),
+    SavedItemModel(
+      name: "Staphylococcus",
+      date: "01/04/2024",
+    ),
+    SavedItemModel(
+      name: "Staphylococcus",
+      date: "01/04/2024",
+    ),
+    SavedItemModel(
+      name: "Staphylococcus",
+      date: "01/04/2024",
+    ),
   ];
 }

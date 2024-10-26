@@ -2,12 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:microbiocol/data/profile_data.dart';
 import 'package:microbiocol/utils/colors.dart';
-import 'package:microbiocol/widgets/custom_box.dart';
 import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/lock_box.dart';
 
-class DetailsPage extends StatelessWidget {
+class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key});
+
+  @override
+  State<DetailsPage> createState() => _DetailsPageState();
+}
+
+class _DetailsPageState extends State<DetailsPage> {
+  //this global key can track teh exact height of the container
+  final GlobalKey _detailsPageContainerKey = GlobalKey();
+  double _containerHeight = 0; // store the exact height of container
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _measureContainerHeight();
+      },
+    );
+  }
+
+  void _measureContainerHeight() {
+    final RenderBox renderBox = _detailsPageContainerKey.currentContext
+        ?.findRenderObject() as RenderBox;
+    setState(
+      () {
+        _containerHeight = renderBox.size.height;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,12 +198,14 @@ class DetailsPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                CustommBox(
+                Container(
+                  key: _detailsPageContainerKey,
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  borderRadius: 8,
-                  color: mwhiteColor,
-                  widget: Expanded(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: mwhiteColor,
+                  ),
+                  child: Expanded(
                     child: Stack(
                       children: [
                         Column(
@@ -311,13 +341,10 @@ class DetailsPage extends StatelessWidget {
                           ],
                         ),
                         if (isFreeTire == true)
-                          lockBox(context, isFreeTire,
-                              MediaQuery.of(context).size.height)
+                          lockBox(context, _containerHeight)
                       ],
                     ),
                   ),
-                  isHasBorder: false,
-                  isHasBoxShadow: false,
                 ),
               ],
             ),

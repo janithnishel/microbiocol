@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:go_router/go_router.dart';
 import 'package:microbiocol/desktop/read/home_read.dart';
 import 'package:microbiocol/desktop/read/rapid_id.dart';
@@ -7,10 +9,10 @@ import 'package:microbiocol/desktop/read/trend.dart';
 import 'package:microbiocol/desktop/read/vendor.dart';
 import 'package:microbiocol/login_register_pages/splash_screen.dart';
 
-class DesktopRoute {
+class ManageRoute {
   final route = GoRouter(
-    initialLocation:
-        "/", //If you want to show the home sidebar, initialize the home sidebar path
+    initialLocation: Platform.isWindows ? "/" : "/", //root location of the app
+
     routes: [
       GoRoute(
         name: "splashScreen",
@@ -79,34 +81,6 @@ class DesktopRoute {
           ),
         ],
       ),
-
-      //  this section handle the home side bar
-
-      // this one not used
-      // StatefulShellRoute.indexedStack(
-      //   builder: (context, state, homeShell) =>
-      //       HomeSideBar(homeShell: homeShell),
-      //   branches: [
-      //     StatefulShellBranch(
-      //       routes: [
-      //         GoRoute(
-      //           name: "home",
-      //           path: "/home",
-      //           builder: (context, state) => Home(),
-      //         )
-      //       ],
-      //     ),
-      //     StatefulShellBranch(
-      //       routes: [
-      //         GoRoute(
-      //           name: "searchDB",
-      //           path: "/search",
-      //           builder: (context, state) => Search(),
-      //         )
-      //       ],
-      //     )
-      //   ],
-      // ),
     ],
   );
 }

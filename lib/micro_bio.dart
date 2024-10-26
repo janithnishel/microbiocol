@@ -26,7 +26,7 @@ class _MicroBiiState extends State<MicroBio> {
   bool isFreeTier = false;
 
   final List<Widget> _pages = [
-    HomePage(),
+    const HomePage(),
     const Analyze(),
     const DB(),
     const Log(),

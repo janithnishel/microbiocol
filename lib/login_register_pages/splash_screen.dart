@@ -24,8 +24,11 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 3),
       () => Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => Platform.isAndroid ?const LoadingScreen():const DesktopLoadingScreen(),
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              Platform.isAndroid
+                  ? const LoadingScreen()
+                  : const DesktopLoadingScreen(),
         ),
       ),
     );

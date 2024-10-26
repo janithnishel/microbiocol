@@ -13,8 +13,36 @@ import 'package:microbiocol/widgets/custom_button.dart';
 import 'package:microbiocol/widgets/lock_box.dart';
 import 'package:microbiocol/global.dart' as globals; // Import globals
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  //this global key can track teh exact height of the container
+  final GlobalKey _homePageContainerKey = GlobalKey();
+  double _containerHeight = 0; // store the exact height of container
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _measureContainerHeight();
+      },
+    );
+  }
+
+  void _measureContainerHeight() {
+    final RenderBox renderBox =
+        _homePageContainerKey.currentContext?.findRenderObject() as RenderBox;
+    setState(
+      () {
+        _containerHeight = renderBox.size.height;
+      },
+    );
+  }
 
   // fetching data from recentcard class
   final recentData = RecentCardData().recentDataList;
@@ -176,8 +204,8 @@ class HomePage extends StatelessWidget {
                   height: 10,
                 ),
                 SizedBox(
+                  key: _homePageContainerKey,
                   width: MediaQuery.of(context).size.width,
-                  height: 160,
                   child: Stack(
                     children: [
                       ListView.builder(
@@ -191,9 +219,7 @@ class HomePage extends StatelessWidget {
                           return _savedItemList(data, context);
                         },
                       ),
-                      if (isFreeTire == true)
-                        lockBox(context, isFreeTire,
-                            MediaQuery.of(context).size.height)
+                      if (isFreeTire == true) lockBox(context, _containerHeight)
                     ],
                   ),
                 )
