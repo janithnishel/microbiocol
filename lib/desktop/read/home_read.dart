@@ -444,7 +444,7 @@ class _HomeReadState extends State<HomeRead> {
                       DataCell(SizedBox(
                         width: 142,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 10,bottom:10 ),
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -460,8 +460,11 @@ class _HomeReadState extends State<HomeRead> {
                       DataCell(SizedBox(width: 142, child: Text('Lightning'))),
                       DataCell(SizedBox(width: 142, child: Text('LI-4528'))),
                       DataCell(SizedBox(width: 142, child: Text('TID'))),
-                      DataCell(
-                          SizedBox(width: 142, child: Text('Plate reads'))),
+                      DataCell(SizedBox(
+                          width: 142,
+                          child: Text(_clickedIndex == 0
+                              ? 'Plate reads'
+                              : "Completed"))),
                     ],
                   ),
                   DataRow(cells: [
@@ -516,7 +519,10 @@ class _HomeReadState extends State<HomeRead> {
                     DataCell(SizedBox(width: 142, child: Text('EM'))),
                     DataCell(SizedBox(width: 142, child: Text('EM-06Jun2024'))),
                     DataCell(SizedBox(width: 142, child: Text('KEP'))),
-                    DataCell(SizedBox(width: 142, child: Text('Plate reads'))),
+                    DataCell(SizedBox(
+                        width: 142,
+                        child: Text(
+                            _clickedIndex == 0 ? 'Plate reads' : "Completed"))),
                   ]),
                 ],
               ),
