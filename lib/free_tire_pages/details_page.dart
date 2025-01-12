@@ -37,16 +37,19 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
+  int clickIndex = 0;
   @override
   Widget build(BuildContext context) {
     // create the  key research topic list
-
     final List<String> topics = [
       "Lorem ipsum dolor sit amet",
       "Consectetur adipiscing elit"
     ];
     //check whether the free tire or premium
     bool isFreeTire = checkTire();
+
+    //store the click button index
+
     return Scaffold(
       backgroundColor: mwhiteColor,
       body: SingleChildScrollView(
@@ -151,44 +154,127 @@ class _DetailsPageState extends State<DetailsPage> {
                           padding: i == 0
                               ? const EdgeInsets.only(right: 8)
                               : const EdgeInsets.only(left: 8),
-                          child: CustomButton(
-                            isHasWidget: true,
-                            isHasBorder: false,
-                            widget: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                i == 0
-                                    ? SvgPicture.asset(
-                                        "assets/images/abacus.svg",
-                                        fit: BoxFit.cover,
-                                        // ignore: deprecated_member_use
-                                        color: mwhiteColor,
-                                        width: 16,
-                                        height: 16,
-                                      )
-                                    : const Padding(
-                                        padding: EdgeInsets.only(top: 2),
-                                        child: Icon(
-                                          Icons.create_new_folder_outlined,
-                                          color: Color(0xffFDFFFC),
-                                          size: 15,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                clickIndex = i;
+                                showBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(8),
+                                          topRight: Radius.circular(8),
+                                        ),
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: mBlack.withOpacity(0.15),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color:
+                                                  mtextColor.withOpacity(0.15),
+                                              offset: const Offset(0, 2),
+                                              blurRadius: 20,
+                                              spreadRadius: 4),
+                                        ],
+                                        color: Colors.white,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20, top: 20),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        "dfasd",
+                                                        style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: mBlack,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    if (Navigator.canPop(
+                                                        context)) {
+                                                      Navigator.pop(context);
+                                                    }
+                                                  },
+                                                  child: const Icon(Icons.close,
+                                                      size: 16, color: mBlack),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  i == 0 ? "Count" : "Add to Folder",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(
-                                      0xffFDFFFC,
-                                    ),
+                                    );
+                                  },
+                                );
+                              });
+                            },
+                            child: CustomButton(
+                              color: clickIndex == i
+                                  ? maccentBlueColor
+                                  : mprimaryColor,
+                              isHasWidget: true,
+                              isHasBorder: false,
+                              widget: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  i == 0
+                                      ? SvgPicture.asset(
+                                          "assets/images/abacus.svg",
+                                          fit: BoxFit.cover,
+                                          // ignore: deprecated_member_use
+                                          color: mwhiteColor,
+                                          width: 16,
+                                          height: 16,
+                                        )
+                                      : const Padding(
+                                          padding: EdgeInsets.only(top: 2),
+                                          child: Icon(
+                                            Icons.create_new_folder_outlined,
+                                            color: Color(0xffFDFFFC),
+                                            size: 15,
+                                          ),
+                                        ),
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                )
-                              ],
+                                  Text(
+                                    i == 0 ? "Count" : "Add to Folder",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(
+                                        0xffFDFFFC,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -205,145 +291,142 @@ class _DetailsPageState extends State<DetailsPage> {
                     borderRadius: BorderRadius.circular(8),
                     color: mwhiteColor,
                   ),
-                  child: Expanded(
-                    child: Stack(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "About",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "About",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: mprimaryColor,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            "Staphylococcus is a genus of Gram-positive bacteria in the family Staphylococcaceae from the order Bacillales. Under the microscope, they appear spherical, and form in grape-like clusters. Staphylococcus species are facultative anaerobic organisms.",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: mprimaryColor,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            "Articles",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: mprimaryColor,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 13,
+                          ),
+                          for (int i = 0; i < 3; i++)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5, top: 1),
+                              child: Text(
+                                " ${i + 1}. Link ${i + 1}",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: mprimaryColor,
+                                ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 15,
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            "Key Research Topics",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: mprimaryColor,
                             ),
-                            const Text(
-                              "Staphylococcus is a genus of Gram-positive bacteria in the family Staphylococcaceae from the order Bacillales. Under the microscope, they appear spherical, and form in grape-like clusters. Staphylococcus species are facultative anaerobic organisms.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              "Articles",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 13,
-                            ),
-                            for (int i = 0; i < 3; i++)
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5, top: 1),
-                                child: Text(
-                                  " ${i + 1}. Link ${i + 1}",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
+                          ),
+                          const SizedBox(
+                            height: 13,
+                          ),
+                          for (int i = 0; i < 2; i++)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5, top: 1),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.circle,
+                                    size: 6,
                                     color: mprimaryColor,
                                   ),
-                                ),
-                              ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              "Key Research Topics",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 13,
-                            ),
-                            for (int i = 0; i < 2; i++)
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5, top: 1),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.circle,
-                                      size: 6,
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    topics[i],
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
                                       color: mprimaryColor,
                                     ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      topics[i],
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: mprimaryColor,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              "Uses",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(
-                              height: 15,
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            "Uses",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: mprimaryColor,
                             ),
-                            const Text(
-                              "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: mprimaryColor,
                             ),
-                            const SizedBox(
-                              height: 15,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            "Illnesses Caused",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: mprimaryColor,
                             ),
-                            const Text(
-                              "Illnesses Caused",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: mprimaryColor,
                             ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: mprimaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                        if (isFreeTire == true)
-                          lockBox(context, _containerHeight)
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      if (isFreeTire == true) lockBox(context, _containerHeight)
+                    ],
                   ),
                 ),
               ],

@@ -17,8 +17,13 @@ class ManageRoute {
       GoRoute(
         name: "splashScreen",
         path: "/",
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) => const HomeRead(),
       ),
+      // GoRoute(
+      //   name: "tt",
+      //   path: "/ss",
+      //   builder: (context, state) => DetailsPage(),
+      // ),
 
       // this section handle the read side bar
       StatefulShellRoute.indexedStack(
